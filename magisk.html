@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magisk 模拟器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #212121;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 0;
+        }
+        
+        .card {
+            background-color: white;
+            margin: 8px 16px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 16px;
+            font-weight: 500;
+            font-size: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .card-content {
+            padding: 16px;
+        }
+        
+        .card-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .card-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .card-item-label {
+            color: #757575;
+        }
+        
+        .card-item-value {
+            font-weight: 500;
+        }
+        
+        .warning-card {
+            background-color: #FFF3E0;
+            border-left: 4px solid #FFA000;
+        }
+        
+        .warning-text {
+            color: #E65100;
+        }
+        
+        .link {
+            color: #1976D2;
+            text-decoration: none;
+        }
+        
+        .social-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            background-color: #E0E0E0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-name {
+            flex: 1;
+        }
+        
+        .social-status {
+            color: #4CAF50;
+        }
+        
+        .fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
+            background-color: #1976D2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 100;
+        }
+        
+        .fab-icon {
+            font-size: 24px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            padding: 16px;
+            background-color: #1976D2;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .modal-body {
+            padding: 16px;
+        }
+        
+        .progress-container {
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background-color: #E0E0E0;
+            border-radius: 2px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #1976D2;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            font-size: 14px;
+            color: #757575;
+            margin-bottom: 16px;
+        }
+        
+        .btn {
+            padding: 10px 16px;
+            background-color: #1976D2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: center;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .restart-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 300;
+            color: white;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .restart-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+        }
+        
+        .restart-text {
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+        
+        .restart-progress {
+            width: 200px;
+            height: 4px;
+            background-color: #333;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        
+        .restart-progress-bar {
+            height: 100%;
+            background-color: #1976D2;
+            width: 0%;
+        }
+        
+        .su-apps {
+            margin-top: 16px;
+        }
+        
+        .su-app-item {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .su-app-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-right: 16px;
+            background-color: #E0E0E0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1976D2;
+            font-weight: bold;
+        }
+        
+        .su-app-info {
+            flex: 1;
+        }
+        
+        .su-app-name {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+        
+        .su-app-package {
+            font-size: 12px;
+            color: #757575;
+        }
+        
+        .su-app-access {
+            font-size: 14px;
+            color: #757575;
+        }
+        
+        .module-item {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .module-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            margin-right: 16px;
+            background-color: #E0E0E0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1976D2;
+            font-weight: bold;
+        }
+        
+        .module-info {
+            flex: 1;
+        }
+        
+        .module-name {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+        
+        .module-package {
+            font-size: 12px;
+            color: #757575;
+        }
+        
+        .module-status {
+            font-size: 14px;
+            color: #757575;
+        }
+        
+        .section-title {
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #757575;
+            margin-top: 16px;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #1976D2;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 警告卡片 -->
+        <div class="card warning-card">
+            <div class="card-content">
+                <div class="warning-text">仅从官方 GitHub 页面下载 Magisk。未知来源的文件可能具有恶意行为！
+                By.Dong</div>
+                <a href="#" class="link" style="display: block; margin-top: 8px;">不再显示</a>
+            </div>
+        </div>
+        
+        <!-- Magisk 信息卡片 -->
+        <div class="card">
+            <div class="card-header">Magisk</div>
+            <div class="card-content">
+                <div class="card-item">
+                    <div class="card-item-label">当前</div>
+                    <div class="card-item-value" id="magisk-status">无法获取</div>
+                </div>
+                <div class="card-item">
+                    <div class="card-item-label">Zygisk</div>
+                    <div class="card-item-value">否</div>
+                </div>
+                <div class="card-item">
+                    <div class="card-item-label">Ramdisk</div>
+                    <div class="card-item-value">是</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- App 信息卡片 -->
+        <div class="card">
+            <div class="card-header">App</div>
+            <div class="card-content">
+                <div class="card-item">
+                    <div class="card-item-label">最新</div>
+                    <div class="card-item-value">无法获取</div>
+                </div>
+                <div class="card-item">
+                    <div class="card-item-label">当前</div>
+                    <div class="card-item-value">1e3edb88 (28103)</div>
+                </div>
+                <div class="card-item">
+                    <div class="card-item-label">包名</div>
+                    <div class="card-item-value">com.topjohnwu.magisk</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 支持开发卡片 -->
+        <div class="card">
+            <div class="card-header">支持开发</div>
+            <div class="card-content">
+                <div>Magisk 将一直保持免费且开源，向开发者捐赠以表示支持。</div>
+            </div>
+        </div>
+        
+        <!-- 关注我们卡片 -->
+        <div class="card">
+            <div class="card-header">关注我们</div>
+            <div class="card-content">
+                <div class="social-item">
+                    <div class="social-icon">T</div>
+                    <div class="social-name">@topjohnwu</div>
+                    <div class="social-status">✔ ✔</div>
+                </div>
+                <div class="social-item">
+                    <div class="social-icon">V</div>
+                    <div class="social-name">@vvb2060</div>
+                    <div class="social-status">✔ ✔</div>
+                </div>
+                <div class="social-item">
+                    <div class="social-icon">Y</div>
+                    <div class="social-name">@yujincheng08</div>
+                    <div class="social-status">✔ ✔</div>
+                </div>
+                <div class="social-item">
+                    <div class="social-icon">R</div>
+                    <div class="social-name">@RikkaW</div>
+                    <div class="social-status">✔ ✔</div>
+                </div>
+                <div class="social-item">
+                    <div class="social-icon">C</div>
+                    <div class="social-name">@canyie</div>
+                    <div class="social-status">✔ ✔</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 超级用户列表 -->
+        <div class="section-title">超级用户</div>
+        <div class="card su-apps" id="su-apps">
+            <!-- 这里会动态生成需要root权限的应用 -->
+        </div>
+        
+        <!-- 模块列表 -->
+        <div class="section-title">模块</div>
+        <div class="card" id="modules">
+            <!-- 这里会动态生成模块 -->
+        </div>
+        
+        <div class="fab" onclick="openInstallModal()">
+            <div class="fab-icon">+</div>
+        </div>
+    </div>
+    
+    <!-- 安装进度模态框 -->
+    <div class="modal" id="install-modal">
+        <div class="modal-content">
+            <div class="modal-header">安装 Magisk</div>
+            <div class="modal-body">
+                <div class="progress-container">
+                    <div class="progress-text">直接安装</div>
+                    <button class="btn btn-block" onclick="startInstall()">开始安装</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 安装进度模态框 -->
+    <div class="modal" id="progress-modal">
+        <div class="modal-content">
+            <div class="modal-header">安装中</div>
+            <div class="modal-body">
+                <div class="progress-container">
+                    <div class="progress-text" id="progress-text">正在准备安装环境...</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-bar"></div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="cancelInstall()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 安装完成模态框 -->
+    <div class="modal" id="complete-modal">
+        <div class="modal-content">
+            <div class="modal-header">安装完成</div>
+            <div class="modal-body">
+                <div class="progress-container">
+                    <div class="progress-text">Magisk 安装已完成，需要重启设备才能生效。</div>
+                    <button class="btn btn-block" onclick="restartDevice()">重启</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 重启界面 -->
+    <div class="restart-screen" id="restart-screen">
+        <div class="restart-logo">⚡</div>
+        <div class="restart-text">正在重启...</div>
+        <div class="restart-progress">
+            <div class="restart-progress-bar" id="restart-progress"></div>
+        </div>
+        <div class="restart-text" id="restart-status">正在关闭应用程序</div>
+    </div>
+    
+    <script>
+        // 模拟的应用数据
+        const apps = [
+            { name: "Shizuku", package: "moe.shizuku.privileged.api", icon: "S", hasRoot: false },
+            { name: "终端模拟器", package: "com.termux", icon: ">", hasRoot: false },
+            { name: "钛备份", package: "com.keramidas.TitaniumBackup", icon: "T", hasRoot: false },
+            { name: "绿色守护", package: "com.oasisfeng.greenify", icon: "G", hasRoot: false }
+        ];
+        
+        const modules = [
+            { name: "BusyBox", package: "com.topjohnwu.busybox", icon: "B", enabled: false },
+            { name: "MagiskHide", package: "com.topjohnwu.magisk.hide", icon: "M", enabled: false },
+            { name: "系统界面调节", package: "com.android.systemui.tuner", icon: "⚙", enabled: false }
+        ];
+        
+        let isRooted = false;
+        let installInProgress = false;
+        
+        // 初始化页面
+        function init() {
+            updateRootStatus();
+            renderApps();
+            renderModules();
+        }
+        
+        // 更新ROOT状态显示
+        function updateRootStatus() {
+            const statusElement = document.getElementById('magisk-status');
+            statusElement.textContent = isRooted ? "28103 (Magisk)" : "无法获取";
+            statusElement.style.color = isRooted ? "#4CAF50" : "#F44336";
+        }
+        
+        // 渲染应用列表
+        function renderApps() {
+            const container = document.getElementById('su-apps');
+            container.innerHTML = '';
+            
+            if (apps.length === 0) {
+                container.innerHTML = '<div class="card-content" style="text-align: center; color: #757575;">没有应用请求超级用户权限</div>';
+                return;
+            }
+            
+            apps.forEach(app => {
+                const appElement = document.createElement('div');
+                appElement.className = 'su-app-item';
+                appElement.innerHTML = `
+                    <div class="su-app-icon">${app.icon}</div>
+                    <div class="su-app-info">
+                        <div class="su-app-name">${app.name}</div>
+                        <div class="su-app-package">${app.package}</div>
+                    </div>
+                    <div class="su-app-access">
+                        <label class="switch">
+                            <input type="checkbox" ${app.hasRoot ? 'checked' : ''} ${isRooted ? '' : 'disabled'} onchange="toggleAppRoot('${app.package}', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                `;
+                
+                container.appendChild(appElement);
+            });
+        }
+        
+        // 渲染模块列表
+        function renderModules() {
+            const container = document.getElementById('modules');
+            container.innerHTML = '';
+            
+            modules.forEach(module => {
+                const moduleElement = document.createElement('div');
+                moduleElement.className = 'module-item';
+                moduleElement.innerHTML = `
+                    <div class="module-icon">${module.icon}</div>
+                    <div class="module-info">
+                        <div class="module-name">${module.name}</div>
+                        <div class="module-package">${module.package}</div>
+                    </div>
+                    <div class="module-status">
+                        ${module.enabled ? "已启用" : "未启用"}
+                    </div>
+                `;
+                
+                container.appendChild(moduleElement);
+            });
+        }
+        
+        // 打开安装模态框
+        function openInstallModal() {
+            if (isRooted) {
+                alert("设备已ROOT，无需再次安装");
+                return;
+            }
+            
+            document.getElementById('install-modal').style.display = 'flex';
+        }
+        
+        // 开始安装
+        function startInstall() {
+            document.getElementById('install-modal').style.display = 'none';
+            document.getElementById('progress-modal').style.display = 'flex';
+            installInProgress = true;
+            
+            // 模拟安装进度
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    installInProgress = false;
+                    document.getElementById('progress-modal').style.display = 'none';
+                    document.getElementById('complete-modal').style.display = 'flex';
+                    return;
+                }
+                
+                progress += Math.random() * 10;
+                if (progress > 100) progress = 100;
+                
+                progressBar.style.width = `${progress}%`;
+                
+                if (progress < 30) {
+                    progressText.textContent = "正在准备安装环境...";
+                } else if (progress < 60) {
+                    progressText.textContent = "正在下载必要文件...";
+                } else if (progress < 90) {
+                    progressText.textContent = "正在安装 Magisk...";
+                } else {
+                    progressText.textContent = "正在完成安装...";
+                }
+            }, 300);
+        }
+        
+        // 取消安装
+        function cancelInstall() {
+            installInProgress = false;
+            document.getElementById('progress-modal').style.display = 'none';
+        }
+        
+        // 重启设备
+        function restartDevice() {
+            document.getElementById('complete-modal').style.display = 'none';
+            document.getElementById('restart-screen').style.display = 'flex';
+            
+            // 模拟重启进度
+            const restartProgress = document.getElementById('restart-progress');
+            const restartStatus = document.getElementById('restart-status');
+            let progress = 0;
+            
+            const steps = [
+                "正在关闭应用程序...",
+                "正在卸载存储...",
+                "正在停止系统服务...",
+                "正在重新初始化内核...",
+                "正在启动系统服务...",
+                "正在加载应用程序..."
+            ];
+            
+            let currentStep = 0;
+            
+            const interval = setInterval(() => {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    
+                    // 完成重启
+                    isRooted = true;
+                    updateRootStatus();
+                    renderApps();
+                    renderModules();
+                    
+                    // 隐藏重启界面
+                    setTimeout(() => {
+                        document.getElementById('restart-screen').style.display = 'none';
+                    }, 500);
+                    
+                    return;
+                }
+                
+                progress += 2;
+                if (progress > 100) progress = 100;
+                
+                restartProgress.style.width = `${progress}%`;
+                
+                // 更新状态文本
+                if (progress >= (currentStep + 1) * (100 / steps.length)) {
+                    currentStep = Math.floor(progress / (100 / steps.length));
+                    if (currentStep < steps.length) {
+                        restartStatus.textContent = steps[currentStep];
+                    }
+                }
+            }, 100);
+        }
+        
+        // 切换应用root权限
+        function toggleAppRoot(packageName, enabled) {
+            const app = apps.find(a => a.package === packageName);
+            if (app) {
+                app.hasRoot = enabled;
+                alert(`${app.name} ${enabled ? "已获得" : "已撤销"}超级用户权限`);
+            }
+        }
+        
+        // 初始化页面
+        window.onload = init;
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dong的AI大模型</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>">
+</head>
+<body>
+    <div class="chat-container">
+        <h1>DongChat<span class="heart">AI</span></h1>
+
+        <div class="0">
+            <details>
+                <summary>流式输出</summary>
+                <div class="settings-grid">
+                    <div>
+                        <label for="model-select"></label>
+                        <select id="model-select">
+                            <option value=""></option>
+                            <!-- Models will be loaded here by JS -->
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="stream-toggle"></label>
+                        <input type="checkbox" id="stream-toggle" checked>
+                    </div>
+                    <div class="setting-item slider-container">
+                        <label for="temperature-slider"><span id="temperature-value">1</span></label>
+                        <input type="range" id="temperature-slider" min="0" max="1" step="0.1" value="1">
+                    </div>
+                     <div class="setting-item slider-container">
+                        <label for="top-p-slider"><span id="top-p-value">1.0</span></label>
+                        <input type="range" id="top-p-slider" min="0.1" max="1" step="0.1" value="1.0">
+                    </div>
+                    <!-- max_tokens can be added similarly if needed -->
+                     <div class="setting-item">
+                         <label for="max-tokens-input"></label>
+                         <input type="number" id="max-tokens-input" value="4096" min="1" max="8192">
+                     </div>
+                </div>
+            </details>
+        </div>
+
+        <div id="chat-box">
+            <!-- Chat messages will appear here -->
+            <div class="message assistant">
+                <span class="role">Dong</span>
+                <p>你好呀！我是DongChat，是作者自主研发的AI大模型，可以回答你的任何问题</p>
+            </div>
+        </div>
+
+        <div id="thinking-indicator" style="display: none;">
+            <span class="role">Dong</span>
+            <p>正在思考中，请耐心等待 <span class="dots">...</span></p>
+        </div>
+
+        <form id="chat-form">
+            <input type="text" id="message-input" placeholder="输入消息..." autocomplete="off" required>
+            <button type="submit">发送</button>
+        </form>
+         
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝塔配置面板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* 登录页面样式 */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e5799 0%,#207cca 51%,#2989d8 100%);
+        }
+        
+        .login-box {
+            width: 380px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .login-logo {
+            margin-bottom: 20px;
+        }
+        
+        .login-logo img {
+            height: 50px;
+        }
+        
+        .login-title {
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .login-form input:focus {
+            border-color: #2989d8;
+            outline: none;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #2989d8;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: #207cca;
+        }
+        
+        .login-footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* 主页面样式 */
+        .main-container {
+            display: none;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .header {
+            height: 60px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        
+        .header-title {
+            font-size: 18px;
+        }
+        
+        .header-user {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-user img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .header-logout {
+            margin-left: 20px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        
+        .header-logout:hover {
+            color: white;
+        }
+        
+        .main-content {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+        
+        .sidebar {
+            width: 220px;
+            background-color: #34495e;
+            color: white;
+            overflow-y: auto;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            border-bottom: 1px solid #2c3e50;
+        }
+        
+        .menu-title {
+            padding: 15px 20px;
+            font-size: 14px;
+            color: #95a5a6;
+            text-transform: uppercase;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .menu-item:hover {
+            background-color: #3d566e;
+        }
+        
+        .menu-item.active {
+            background-color: #2980b9;
+        }
+        
+        .menu-item i {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        
+        .menu-item .menu-text {
+            flex: 1;
+        }
+        
+        .menu-item .menu-arrow {
+            font-size: 12px;
+        }
+        
+        .submenu {
+            list-style: none;
+            background-color: #2c3e50;
+            display: none;
+        }
+        
+        .submenu li a {
+            display: block;
+            padding: 10px 20px 10px 40px;
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 13px;
+            transition: background-color 0.3s;
+        }
+        
+        .submenu li a:hover {
+            background-color: #3d566e;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f5f5f5;
+        }
+        
+        .content-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .panel {
+            background-color: white;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .panel-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .panel-body {
+            padding: 20px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 3px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #2980b9;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3498db;
+        }
+        
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #2ecc71;
+        }
+        
+        .btn-default {
+            background-color: #ecf0f1;
+            color: #333;
+        }
+        
+        .btn-default:hover {
+            background-color: #bdc3c7;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #27ae60;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .table th {
+            background-color: #f9f9f9;
+            font-weight: 500;
+        }
+        
+        .table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 3px;
+        }
+        
+        .alert-success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        
+        .alert-info {
+            background-color: #d9edf7;
+            color: #31708f;
+        }
+        
+        .alert-warning {
+            background-color: #fcf8e3;
+            color: #8a6d3b;
+        }
+        
+        .alert-danger {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-20 {
+            margin-top: 20px;
+        }
+        
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+        
+        .developing {
+            padding: 100px 0;
+            text-align: center;
+            color: #999;
+            font-size: 18px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div class="login-container" id="login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <img src="https://www.bt.cn/static/images/logo.png" alt="宝塔面板">
+            </div>
+            <h2 class="login-title">宝塔Linux面板</h2>
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" placeholder="请输入用户名" value="admin">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" placeholder="请输入密码" value="123456">
+                </div>
+                <button type="submit" class="login-btn">登 录</button>
+            </form>
+            <div class="login-footer">
+                © 2023 宝塔面板 - 简单好用的服务器运维面板
+            </div>
+        </div>
+    </div>
+    
+    <!-- 主页面 -->
+    <div class="main-container" id="main-page">
+        <div class="header">
+            <div class="header-logo">
+                <img src="https://www.bt.cn/static/images/logo_white.png" alt="宝塔面板">
+                <div class="header-title">宝塔Linux面板</div>
+            </div>
+            <div class="header-user">
+                <img src="https://www.bt.cn/static/images/default.png" alt="用户头像">
+                <span>管理员</span>
+                <div class="header-logout" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> 退出
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="menu-title">主菜单</li>
+                    <li class="menu-item active" data-page="home">
+                        <i class="fas fa-home"></i>
+                        <span class="menu-text">首页</span>
+                    </li>
+                    <li class="menu-title">网站</li>
+                    <li class="menu-item" data-page="website">
+                        <i class="fas fa-globe"></i>
+                        <span class="menu-text">网站</span>
+                        <i class="fas fa-angle-down menu-arrow"></i>
+                    </li>
+                    <ul class="submenu" id="website-submenu">
+                        <li><a href="#" data-page="website-list">网站列表</a></li>
+                        <li><a href="#" data-page="add-website">添加站点</a></li>
+                        <li><a href="#" data-page="ssl">SSL证书</a></li>
+                    </ul>
+                    <li class="menu-title">文件</li>
+                    <li class="menu-item" data-page="files">
+                        <i class="fas fa-folder-open"></i>
+                        <span class="menu-text">文件</span>
+                    </li>
+                    <li class="menu-title">数据库</li>
+                    <li class="menu-item" data-page="database">
+                        <i class="fas fa-database"></i>
+                        <span class="menu-text">数据库</span>
+                        <i class="fas fa-angle-down menu-arrow"></i>
+                    </li>
+                    <ul class="submenu" id="database-submenu">
+                        <li><a href="#" data-page="mysql">MySQL</a></li>
+                        <li><a href="#" data-page="phpmyadmin">phpMyAdmin</a></li>
+                    </ul>
+                    <li class="menu-title">安全</li>
+                    <li class="menu-item" data-page="security">
+                        <i class="fas fa-shield-alt"></i>
+                        <span class="menu-text">安全</span>
+                        <i class="fas fa-angle-down menu-arrow"></i>
+                    </li>
+                    <ul class="submenu" id="security-submenu">
+                        <li><a href="#" data-page="firewall">防火墙</a></li>
+                        <li><a href="#" data-page="ssh">SSH管理</a></li>
+                        <li><a href="#" data-page="ip">IP限制</a></li>
+                    </ul>
+                    <li class="menu-title">软件商店</li>
+                    <li class="menu-item" data-page="soft">
+                        <i class="fas fa-store"></i>
+                        <span class="menu-text">软件商店</span>
+                    </li>
+                    <li class="menu-title">监控</li>
+                    <li class="menu-item" data-page="monitor">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="menu-text">监控</span>
+                    </li>
+                    <li class="menu-title">设置</li>
+                    <li class="menu-item" data-page="settings">
+                        <i class="fas fa-cog"></i>
+                        <span class="menu-text">面板设置</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="content" id="content-area">
+                <!-- 首页内容 -->
+                <div class="content-page" id="home-page">
+                    <h2 class="content-title">服务器状态</h2>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> 欢迎使用宝塔Linux面板，当前版本：7.9.0（测试版）
+                    </div>
+                    
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span>系统信息</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>服务器IP</label>
+                                        <input type="text" class="form-control" value="192.168.1.100" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>操作系统</label>
+                                        <input type="text" class="form-control" value="CentOS 7.9.2009 x86_64" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>面板版本</label>
+                                        <input type="text" class="form-control" value="7.9.0" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>服务器时间</label>
+                                        <input type="text" class="form-control" value="2023-06-15 14:30:25" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>运行时间</label>
+                                        <input type="text" class="form-control" value="15天 3小时 25分钟" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>最后启动</label>
+                                        <input type="text" class="form-control" value="2023-05-31 11:05:00" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span>资源使用</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>CPU使用率</label>
+                                        <div class="progress" style="height: 20px; background-color: #eee; border-radius: 3px;">
+                                            <div class="progress-bar" style="width: 35%; height: 100%; background-color: #3498db; border-radius: 3px;">35%</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>内存使用</label>
+                                        <div class="progress" style="height: 20px; background-color: #eee; border-radius: 3px;">
+                                            <div class="progress-bar" style="width: 68%; height: 100%; background-color: #2ecc71; border-radius: 3px;">68% (3.4G/5G)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>磁盘使用</label>
+                                        <div class="progress" style="height: 20px; background-color: #eee; border-radius: 3px;">
+                                            <div class="progress-bar" style="width: 42%; height: 100%; background-color: #e74c3c; border-radius: 3px;">42% (84G/200G)</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>带宽使用</label>
+                                        <div class="progress" style="height: 20px; background-color: #eee; border-radius: 3px;">
+                                            <div class="progress-bar" style="width: 15%; height: 100%; background-color: #f39c12; border-radius: 3px;">15% (15Mbps/100Mbps)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span>安全风险</span>
+                            <button class="btn btn-default btn-sm">修复所有</button>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>风险类型</th>
+                                        <th>风险描述</th>
+                                        <th>危险等级</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>SSH端口</td>
+                                        <td>SSH默认端口22未修改</td>
+                                        <td><span style="color: #e74c3c;">高危</span></td>
+                                        <td><button class="btn btn-primary btn-sm">立即修复</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>MySQL密码</td>
+                                        <td>MySQL root密码过于简单</td>
+                                        <td><span style="color: #e74c3c;">高危</span></td>
+                                        <td><button class="btn btn-primary btn-sm">立即修复</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>面板端口</td>
+                                        <td>面板默认端口8888未修改</td>
+                                        <td><span style="color: #f39c12;">中危</span></td>
+                                        <td><button class="btn btn-primary btn-sm">立即修复</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span>软件管理</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Nginx</label>
+                                        <input type="text" class="form-control" value="1.22.1" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>状态</label>
+                                        <label class="switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <button class="btn btn-default">设置</button>
+                                    <button class="btn btn-primary">重启</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>MySQL</label>
+                                        <input type="text" class="form-control" value="5.7.40" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>状态</label>
+                                        <label class="switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <button class="btn btn-default">设置</button>
+                                    <button class="btn btn-primary">重启</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>PHP</label>
+                                        <input type="text" class="form-control" value="7.4.33" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>状态</label>
+                                        <label class="switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <button class="btn btn-default">设置</button>
+                                    <button class="btn btn-primary">重启</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>FTP</label>
+                                        <input type="text" class="form-control" value="未安装" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>状态</label>
+                                        <label class="switch">
+                                            <input type="checkbox" disabled>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <button class="btn btn-success">安装</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 其他页面内容 -->
+                <div class="content-page" id="website-page" style="display: none;">
+                    <div class="developing">
+                        <i class="fas fa-tools fa-3x mb-20"></i>
+                        <h3>网站管理功能正在开发中...</h3>
+                        <p>请稍后再试或返回首页</p>
+                        <button class="btn btn-primary mt-20" onclick="showPage('home')">返回首页</button>
+                    </div>
+                </div>
+                
+                <div class="content-page" id="files-page" style="display: none;">
+                    <div class="developing">
+                        <i class="fas fa-tools fa-3x mb-20"></i>
+                        <h3>文件管理功能正在开发中...</h3>
+                        <p>请稍后再试或返回首页</p>
+                        <button class="btn btn-primary mt-20" onclick="showPage('home')">返回首页</button>
+                    </div>
+                </div>
+                
+                <div class="content-page" id="database-page" style="display: none;">
+                    <div class="developing">
+                        <i class="fas fa-tools fa-3x mb-20"></i>
+                        <h3>数据库管理功能正在开发中...</h3>
+                        <p>请稍后再试或返回首页</p>
+                        <button class="btn btn-primary mt-20" onclick="showPage('home')">返回首页</button>
+                    </div>
+                </div>
+                
+                <div class="content-page" id="security-page" style="display: none;">
+                    <div class="developing">
+                        <i class="fas fa-tools fa-3x mb-20"></i>
+                        <h3>安全管理功能正在开发中...</h3>
+                        <p>请稍后再试或返回首页</p>
+                        <button class="btn btn-primary mt-20" onclick="showPage('home')">返回首页</button>
+                    </div>
+                </div>
+                
+                <div class="content-page" id="soft-page" style="display: none;">
+                    <div class="developing">
+                        <i class="fas fa-tools fa-3x mb-20"></i>
+                        <h3>软件商店功能正在开发中...</h3>
+                        <p>请稍后再试或返回首页</p>
+                        <button class="btn btn-primary mt-20" onclick="showPage('home')">返回首页</button>
+                    </div>
+                </div>
+                
+                <div class="content-page" id="monitor-page" style="display: none;">
+                    <div class="developing">
+                        <i class="fas fa-tools fa-3x mb-20"></i>
+                        <h3>监控功能正在开发中...</h3>
+                        <p>请稍后再试或返回首页</p>
+                        <button class="btn btn-primary mt-20" onclick="showPage('home')">返回首页</button>
+                    </div>
+                </div>
+                
+                <div class="content-page" id="settings-page" style="display: none;">
+                    <div class="developing">
+                        <i class="fas fa-tools fa-3x mb-20"></i>
+                        <h3>面板设置功能正在开发中...</h3>
+                        <p>请稍后再试或返回首页</p>
+                        <button class="btn btn-primary mt-20" onclick="showPage('home')">返回首页</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 登录功能
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                // 模拟登录成功
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('main-page').style.display = 'block';
+            } else {
+                alert('请输入用户名和密码');
+            }
+        });
+        
+        // 退出功能
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            if (confirm('确定要退出面板吗？')) {
+                document.getElementById('main-page').style.display = 'none';
+                document.getElementById('login-page').style.display = 'flex';
+                document.getElementById('password').value = '';
+            }
+        });
+        
+        // 菜单切换功能
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // 移除所有active类
+                menuItems.forEach(i => i.classList.remove('active'));
+                // 给当前点击的菜单添加active类
+                this.classList.add('active');
+                
+                // 处理子菜单显示/隐藏
+                const submenuId = this.getAttribute('data-page') + '-submenu';
+                const submenu = document.getElementById(submenuId);
+                if (submenu) {
+                    if (submenu.style.display === 'block') {
+                        submenu.style.display = 'none';
+                        this.querySelector('.menu-arrow').classList.remove('fa-angle-up');
+                        this.querySelector('.menu-arrow').classList.add('fa-angle-down');
+                    } else {
+                        submenu.style.display = 'block';
+                        this.querySelector('.menu-arrow').classList.remove('fa-angle-down');
+                        this.querySelector('.menu-arrow').classList.add('fa-angle-up');
+                    }
+                }
+                
+                // 显示对应页面
+                const pageId = this.getAttribute('data-page') + '-page';
+                showPage(pageId);
+            });
+        });
+        
+        // 子菜单点击
+        const submenuItems = document.querySelectorAll('.submenu a');
+        submenuItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page') + '-page';
+                showPage(pageId);
+            });
+        });
+        
+        // 显示页面函数
+        function showPage(pageId) {
+            // 隐藏所有内容页面
+            const pages = document.querySelectorAll('.content-page');
+            pages.forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // 显示当前页面
+            const currentPage = document.getElementById(pageId);
+            if (currentPage) {
+                currentPage.style.display = 'block';
+            }
+        }
+        
+        // 初始化子菜单箭头
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuArrows = document.querySelectorAll('.menu-arrow');
+            menuArrows.forEach(arrow => {
+                arrow.classList.add('fa-angle-down');
+            });
+        });
+    </script>
+    <meta name="viewport" content="width=1200">
+
+</body>
+</html>

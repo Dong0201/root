@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问题助手</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .chat-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            height: 300px;
+            overflow-y: auto;
+        }
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .quick-btn {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .quick-btn:hover {
+            background-color: #45a049;
+        }
+        .message-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .send-btn {
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .send-btn:hover {
+            background-color: #0b7dda;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            max-width: 70%;
+        }
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: auto;
+        }
+        .other-message {
+            background-color: #f1f1f1;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>问题助手By.Dong</h2>
+    
+    <div class="chat-container" id="chatBox">
+        <!-- 聊天内容将在这里显示 -->
+    </div>
+    
+    <div class="quick-buttons">
+        <button class="quick-btn" onclick="sendQuickMessage('你是谁？')">你是谁？</button>
+        <button class="quick-btn" onclick="sendQuickMessage('如何获取root权限？')">如何获取root权限</button>
+        <button class="quick-btn" onclick="sendQuickMessage('如何解除BL锁？')">如何解除BL锁？</button>
+        <button class="quick-btn" onclick="sendQuickMessage('我没有电脑怎么办？')">我没有电脑怎么办？</button>
+        <button class="quick-btn" onclick="sendQuickMessage('能不能邮寄？')">能不能邮寄？</button>
+        <button class="quick-btn" onclick="sendQuickMessage('我的设备可以刷root吗？')">我的设备可以刷root吗？</button>
+    </div>
+    
+    <input type="text" class="message-input" id="messageInput" placeholder="输入问题...">
+    <button class="send-btn" onclick="sendMessage()">发送</button>
+    
+    <script>
+        function sendQuickMessage(message) {
+            // 显示用户发送的消息
+            displayMessage(message, 'user');
+            
+            // 模拟回复（实际应用中这里可以调用API获取回复）
+            setTimeout(() => {
+                let reply = getReply(message);
+                displayMessage(reply, 'other');
+            }, 500);
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                displayMessage(message, 'user');
+                input.value = '';
+                
+                // 模拟回复
+                setTimeout(() => {
+                    let reply = getReply(message);
+                    displayMessage(reply, 'other');
+                }, 500);
+            }
+        }
+        
+        function displayMessage(message, sender) {
+            const chatBox = document.getElementById('chatBox');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(sender + '-message');
+            messageDiv.textContent = message;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        
+        function getReply(message) {
+            // 简单回复逻辑
+            const replies = {
+                '你是谁？': '我是栋的问题助手，有什么可以帮到您的吗？',
+                '如何获取root权限？': '远程服务，使用todesk远程控制软件来为您远程刷root，方便又省时',
+                '如何解除BL锁？': '老机型可以使用官方的解锁工具，但是新机型就不能用了，但我们有几乎全机型的独家秒解锁工具，可以为您的手机平板解锁BL，不需要等待',
+                '我没有电脑怎么办？': '没有电脑，可以去网吧开1个小时的机子，也就几块钱，方便又实惠，也可以找作者报销',
+                '能不能邮寄？': '推荐您远程刷机，不推荐邮寄，远程刷机方便又省时还安全',
+                '我的设备可以刷root吗？': '现在除华为外，绝大部分都是可以刷取root权限的，也可以在网站主页添加我的QQ或微信询问'
+            };
+            
+            return replies[message] || '这个问题我还不会呢，请您在网站主页选择AI问答进行搜索吧';
+        }
+        
+        // 允许按Enter键发送消息
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
