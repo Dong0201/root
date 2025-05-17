@@ -1,117 +1,135 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Root主页 by.栋</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5;url=home.html">
+    <title>来了哥，欢迎您!</title>
+    <style>
+        :root {
+            --neon: #0ff;
+            --bg: #1a1a1a;
+        }
 
-    header {
-      background-color: #1E90FF;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            overflow: hidden;
+        }
 
-    main {
-      padding: 20px;
-    }
+        .coffin {
+            width: 80vw;
+            max-width: 600px;
+            padding: 2rem;
+            background: 
+                linear-gradient(45deg, 
+                    transparent 20%, 
+                    rgba(255,0,0,0.1) 25%, 
+                    transparent 30%),
+                var(--bg);
+            border: 3px solid var(--neon);
+            box-shadow: 0 0 30px var(--neon);
+            transform-style: preserve-3d;
+            animation: 
+                coffinEntrance 2s ease-out,
+                coffinFloat 6s infinite alternate;
+        }
 
-    section {
-      margin-bottom: 30px;
-    }
+        @keyframes coffinEntrance {
+            0% { transform: rotateX(90deg) translateY(-100vh); }
+            80% { transform: rotateX(-10deg); }
+            100% { transform: rotateX(0); }
+        }
 
-    h2 {
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 10px;
-    }
+        @keyframes coffinFloat {
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
 
-    div[class^="item"] {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 15px;
-      margin-bottom: 15px;
-      cursor: pointer;
-    }
+        .text {
+            color: var(--neon);
+            text-shadow: 0 0 10px var(--neon);
+            border-right: 3px solid;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: 
+                typing 3s steps(30),
+                cursorBlink 0.5s step-end infinite alternate;
+        }
 
-    div[class^="item"]:hover {
-      background-color: #f9f9f9;
-    }
+        @keyframes typing {
+            from { width: 0 }
+        }
 
-    h3 {
-      margin-top: 0;
-    }
-  </style>
+        @keyframes cursorBlink {
+            50% { border-color: transparent; }
+        }
+
+        /* 手机适配 */
+        @media (max-width: 600px) {
+            .coffin { width: 95vw; padding: 1rem; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
 </head>
-
 <body>
-  <header>
-    <h1>Dong的Root主页</h1>
-  </header>
-  <main>
-    <section>
-      <h2>欢迎来到Dong的Root主页</h2>
-      <p>该站点由作者（Dong栋）自主研发的刷机，工具，娱乐为一体的多功能网站，欢迎您的使用</p>
-      <p>往下翻，查看更多好玩的功能</p>
-      <h2>添加作者联系方式</h2>
-      <div class="item1" onclick="window.location.href='https://dong0201.github.io/d/weixin.jpg'">
-        <h3>作者企业微信</h3>
-        <p>扫码添加，如果加不了，就是上限了，可以选择加QQ</p>
-      </div>
-      <div class="item2" onclick="window.location.href='https://qm.qq.com/q/FCsQ7xeb8A'">
-        <h3>作者QQ（推荐）</h3>
-        <p>直接链接跳转添加（前提是要在浏览器中打开本网站）添加提示风险等十秒即可加好友太多导致</p>
-      </div>
-    </section>
-    <section>
-      <h2>工具下载</h2>
-      <div class="item3" onclick="window.location.href='https://www.lsdy.top'">
-        <h3>刷机工具下载</h3>
-        <p>刷机工具，投屏工具，fastboot驱动下载</p>
-      </div>
-      <div class="item4" onclick="window.location.href='https://www.123912.com/s/XwTqVv-FYnJ3?'">
-        <h3>解BL工具下载</h3>
-        <p>包含大部分机型解锁BL的工具整合包（提取码：PDhZ）</p>
-      </div>
-    </section>
-        <h2>更多工具</h2>
-      <div class="item5" onclick="window.location.href='wt.html'">
-        <h3>问题助手</h3>
-        <p>可回答一些关于root的问题，适合小白使用</p>
-      </div>
-      <div class="item5" onclick="window.location.href='ai.html'">
-        <h3>DongChatAI问答</h3>
-        <p>作者自主研发的AI大模型，可回答所有问题，目前处于测试阶段</p>
-      </div>
-      <div class="item6" onclick="window.location.href='magisk.html'">
-        <h3>Magisk模拟器</h3>
-        <p>用于小白熟练Magisk操作，进入后点击右下角加号开始模拟安装</p>
-      </div>
-    </section>
-          <h2>反馈图查看</h2>
-      <div class="item6" onclick="window.location.href='https://www.123912.com/s/XwTqVv-YYnJ3'">
-        <h3>查看刷机反馈图</h3>
-        <p>如果你不信任作者，可以查看近期的刷机反馈图</p>
-      </div>
-    </section>
-    <a href="admin.html" target="_blank">
-  <button style="background-color: #4a90e2; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
-    服务器面板配置管理入口
-  </button>
-</a>
-<p>Dong栋，版权所有，侵权必究</p>
-<p>网站最后一次更新时间20250517</p>
-  </main>
-  <script>
-    // 这里可以添加更多交互逻辑，目前主要是点击跳转功能
-  </script>
-</body>
+    <div class="coffin">
+        <div class="text">
+            <h1>欢迎来到我的网站</h1>
+            <p>亲爱的粉丝</p>
+            <p>感谢您来找我刷root</p>
+            <p>我一定会给您最好的服务</p>
+            <p>此页面将在<span style="color:red">5</span>秒后跳转至主页</p>
+            <p>即日起：</p>
+            <ul>
+                <li>找我刷root一律送1个月售后</li>
+                <li>送免费常用模块</li>
+                <li>免费帮刷内核驱动</li>
+            </ul>
+            <p>By.Dong栋</p>
+            <p>版权所有，侵权必究</p>
+            <p>联系：📧 2352838974@qq.com</p>
+            <p style="font-size:0.8em">PS：刷root变砖概率小于IE兼容成功率</p>
+        </div>
+    </div>
 
+    <!-- 灵魂出窍动画 -->
+    <svg style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none">
+        <filter id="ghost">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feColorMatrix type="matrix" values="1 0 0 0 0 
+                                               0 1 0 0 0 
+                                               0 0 1 0 0 
+                                               0 0 0 18 -7"/>
+        </filter>
+        <image href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxjbGlwUGF0aCBpZD0iZyI+PHBhdGggZD0iTTUwIDI1YzE0IDAgMjUgMTEgMjUgMjVzLTExIDI1LTI1IDI1UzI1IDY0IDI1IDUwIDM2IDI1IDUwIDI1eiIvPjwvY2xpcFBhdGg+PGcgY2xpcC1wYXRoPSJ1cmwoI2cpIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2ZmZiIvPjwvZz48L3N2Zz4=" 
+               y="-50%" width="100%" filter="url(#ghost)"
+               animation="ghostFly 10s linear infinite"/>
+    </svg>
+
+    <script>
+        // 随机棺材抖动
+        setInterval(() => {
+            document.querySelector('.coffin').style.transform = 
+                `rotate(${Math.random()*2-1}deg) translateY(${Math.random()*5}px)`;
+        }, 300);
+
+        // 文字故障效果
+        const text = document.querySelector('.text');
+        setInterval(() => {
+            if(Math.random() > 0.9) {
+                text.style.textShadow = `
+                    ${Math.random()*10}px ${Math.random()*10}px 0 red,
+                    ${Math.random()*10}px ${Math.random()*10}px 0 blue`;
+                setTimeout(() => text.style.textShadow = '', 50);
+            }
+        }, 1000);
+    </script>
+</body>
 </html>
