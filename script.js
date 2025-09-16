@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let conversationHistory = [
         // Keep track of messages for the API
-        // { role: 'assistant', content: '你好呀！我是DongChat，可以回答你的任何问题' } // Initial message doesn't need to be sent back
+        // { role: 'assistant', content: '你好呀！我是DongChat，可以回答你的问题' } // Initial message doesn't need to be sent back
     ];
 
     // --- Fetch Models ---
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Prepare API request data
         const requestData = {
-            model: modelSelect.value || "", // Fallback model
+            model: modelSelect.value || "https://api.jkyai.top/API/doubao.php?question=", // Fallback model
             messages: conversationHistory,
             stream: streamToggle.checked,
             temperature: parseFloat(temperatureSlider.value),
