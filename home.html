@@ -48,6 +48,76 @@
     h3 {
       margin-top: 0;
     }
+
+    .music-float {
+      position: fixed;  /* 固定定位，不随页面滚动 */
+      right: 20px;      /* 距离右侧20px */
+      bottom: 20px;     /* 距离底部20px */
+      width: 60px;      /* 悬浮窗宽度 */
+      height: 60px;     /* 悬浮窗高度 */
+      border-radius: 50%; /* 圆形外观 */
+      background: #ff4444; /* 红色背景，醒目 */
+      color: white;     /* 文字白色 */
+      text-align: center; /* 文字居中 */
+      line-height: 60px; /* 垂直居中 */
+      cursor: pointer;  /* 鼠标悬浮显示“手”型，提示可点击 */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3); /* 阴影，增强层次感 */
+      z-index: 9999;    /* 层级最高，避免被其他元素遮挡 */
+    }
+  </style>
+</head>
+<body>
+  <!-- 2. 音频标签：默认隐藏控件，通过悬浮窗控制 -->
+  <audio id="bgMusic" src="fuck.mp3" loop>
+    您的浏览器不支持音频播放
+  </audio>
+
+  <!-- 3. 悬浮窗：显示播放/暂停状态 -->
+  <div class="music-float" id="musicBtn">▶ 播放</div>
+
+  <script>
+    // 4. JavaScript控制逻辑
+    const audio = document.getElementById('bgMusic');
+    const btn = document.getElementById('musicBtn');
+    let isPlaying = false; // 标记当前是否在播放
+
+    // 方法1：页面加载时尝试自动播放（规避浏览器拦截）
+    function autoPlay() {
+      // 先尝试直接自动播放，失败则监听用户首次点击后播放
+      audio.play().then(() => {
+        updateBtnStatus(true); // 播放成功，更新按钮文字
+      }).catch(() => {
+        // 浏览器拦截时，监听用户首次点击页面任意位置触发播放
+        document.addEventListener('click', function initPlay() {
+          audio.play().then(() => updateBtnStatus(true));
+          document.removeEventListener('click', initPlay); // 仅触发一次
+        }, { once: true });
+      });
+    }
+
+    // 方法2：更新悬浮窗按钮状态（播放→暂停，暂停→播放）
+    function updateBtnStatus(playing) {
+      isPlaying = playing;
+      btn.innerText = isPlaying ? '■ 暂停' : '▶ 播放';
+    }
+
+    // 方法3：点击悬浮窗切换播放/暂停
+    btn.addEventListener('click', () => {
+      if (isPlaying) {
+        audio.pause();
+        updateBtnStatus(false);
+      } else {
+        audio.play();
+        updateBtnStatus(true);
+      }
+    });
+
+    // 页面加载完成后，执行自动播放逻辑
+    window.onload = autoPlay;
+  </script>
+</body>
+</html>
+
   </style>
 </head>
 <meta charset="UTF-8">
@@ -70,7 +140,45 @@
           src="root.jpg"  <!-- 替换为实际图片路径（本地/在线链接） --       <!-- 例如“风景图”“产品封面”，提升兼容性 -->
      <!-- 网页其他内容 -->
 <body>
-  
+  <body>
+<!-- 1. 先引入弹窗核心JS库（必须在调用代码之前引入，确保库先加载） -->
+<script src="cAlert.js"></script>
+
+<!-- 2. 页面加载后直接调用弹窗的代码 -->
+<script>
+// 等待页面DOM完全加载完成（避免DOM未就绪时调用弹窗导致异常）
+document.addEventListener('DOMContentLoaded', function() {
+  // 核心调用：cAlert.s(标题, 文本, 配置对象) —— 这是弹窗库的核心触发方法
+  // 方法说明：cAlert是全局暴露的库名（缩写），.s是success方法的缩写（代表成功类型弹窗）
+  cAlert.s(
+    '欢迎访问',  // 第1个参数：弹窗标题（对应JS内部的t参数，显示在弹窗顶部，字体较大）
+    '欢迎来到我的网站，感谢您对我的信任与支持',  // 第2个参数：弹窗正文（对应JS内部的tx参数，显示在标题下方，字体较小）
+    { tm: 5000 }  // 第3个参数：配置对象（可选），tm是timer的缩写，值为5000代表5000毫秒（5秒）后自动关闭弹窗
+  ).then(function() {
+    // then回调：弹窗完全关闭后触发（需等待2秒关闭动画结束），可用于执行关闭后的后续操作
+    console.log('弹窗已关闭（2秒关闭动画已完成）');
+  });
+
+  // 额外调用示例1：无定时关闭（需手动点击弹窗内的「确定」按钮关闭）
+  // cAlert.s(
+  //   '手动关闭示例', 
+  //   '此弹窗不会自动关闭，点击「确定」按钮触发2秒关闭动画',
+  //   {}  // 不写tm配置，即无定时关闭
+  // );
+
+  // 额外调用示例2：3秒定时关闭+自定义逻辑
+  // cAlert.s(
+  //   '3秒关闭示例', 
+  //   '3秒后自动关闭，关闭后执行回调',
+  //   { tm: 3000 }  // tm:3000 → 3秒自动关闭
+  // ).then(function() {
+  //   alert('3秒弹窗已关闭'); // 关闭后弹出系统提示（仅示例）
+  // });
+
+  // 手动关闭弹窗方法（示例：若需通过其他逻辑关闭当前弹窗，可调用cAlert.cl()）
+  // cAlert.cl(); // cl是close方法的缩写，调用后立即触发2秒关闭动画
+});
+</script>
     <section>
       <h2>欢迎来到Dong的刷机主页</h2>
       <p>该站点由作者（Dong栋）自主研发的刷机，工具，为一体的多功能网站，欢迎您的使用</p>
