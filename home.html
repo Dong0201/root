@@ -42,7 +42,7 @@
     }
 
     div[class^="item"]:hover {
-      background-color: #f9f9f9;
+      background-color: #;
     }
 
     h3 {
@@ -50,12 +50,27 @@
     }
   </style>
 </head>
-
+<meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>插入图片示例</title>
+     <style>
+         /* 可选：优化图片显示，避免拉伸/留白 */
+         .web-image {
+             width: 100%; /* 图片宽度占满父容器（可改为固定值如500px） */
+             max-width: 800px; /* 限制图片最大宽度，避免在大屏上过大 */
+             height: auto; /* 高度自动适配，保持图片比例不变形 */
+             display: block; /* 消除图片底部默认空隙 */
+             margin: 0px auto; /* 可选：让图片水平居中，上下留20px间距 */
+         }
+     </style>
+ </head>
+ <body>
+     <!-- 核心：插入图片，src为图片地址，alt为图片加载失败时的提示 -->
+     <img class="web-image" 
+          src="root.jpg"  <!-- 替换为实际图片路径（本地/在线链接） --       <!-- 例如“风景图”“产品封面”，提升兼容性 -->
+     <!-- 网页其他内容 -->
 <body>
-  <header>
-    <h1>Dong的Root主页</h1>
-  </header>
-  <main>
+  
     <section>
       <h2>欢迎来到Dong的Root主页</h2>
       <p>该站点由作者（Dong栋）自主研发的刷机，工具，娱乐为一体的多功能网站，欢迎您的使用</p>
