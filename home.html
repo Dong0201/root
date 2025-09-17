@@ -152,8 +152,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // 方法说明：cAlert是全局暴露的库名（缩写），.s是success方法的缩写（代表成功类型弹窗）
   cAlert.s(
     '欢迎访问',  // 第1个参数：弹窗标题（对应JS内部的t参数，显示在弹窗顶部，字体较大）
-    '欢迎来到我的网站，感谢您对我的信任与支持。请点击“确定”继续访问',  // 第2个参数：弹窗正文（对应JS内部的tx参数，显示在标题下方，字体较小）
-    { tm: 100000 }  // 第3个参数：配置对象（可选），tm是timer的缩写，值为5000代表5000毫秒（5秒）后自动关闭弹窗
+    '欢迎来到我的网站，感谢您对我的信任与支持',  // 第2个参数：弹窗正文（对应JS内部的tx参数，显示在标题下方，字体较小）
+    { tm: 5000 }  // 第3个参数：配置对象（可选），tm是timer的缩写，值为5000代表5000毫秒（5秒）后自动关闭弹窗
   ).then(function() {
     // then回调：弹窗完全关闭后触发（需等待2秒关闭动画结束），可用于执行关闭后的后续操作
     console.log('弹窗已关闭（2秒关闭动画已完成）');
@@ -208,15 +208,18 @@ document.addEventListener('DOMContentLoaded', function() {
         <h3>DongChatAI问答</h3>
         <p>作者自主研发的AI大模型，可回答所有问题，目前处于测试阶段</p>
       </div>
+<h2>模拟器</h2>
       <div class="item6" onclick="window.location.href='magisk.html'">
         <h3>Magisk模拟器</h3>
         <p>用于小白熟练Magisk操作，进入后点击右下角加号开始模拟安装</p>
       </div>
     </section>
-          <h2>反馈图查看</h2>
-      <div class="item6" onclick="window.location.href='https://www.123912.com/s/XwTqVv-YYnJ3'">
-        <h3>查看刷机反馈图</h3>
-        <p>如果你不信任作者，可以查看近期的刷机反馈图</p>
+          <div class="item6" onclick="window.location.href='suki.html'">
+        <h3>SukiUltra模拟器</h3>
+        <p>用于小白熟练SukiUltra操作，可自由探索</p>
+      </div>
+    </section>      
+ 
       </div>
     </section>
     <a href="admin.html" target="_blank">

@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SukiSU Ultra模拟器By.Dong</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        }
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .page {
+            display: none;
+            padding: 16px;
+        }
+        .page.active {
+            display: block;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header .icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        .status-card {
+            background-color: #dbeafe;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .status-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        .check-icon::after {
+            content: "✓";
+            color: #3b82f6;
+        }
+        .status-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        .lkm-tag {
+            background-color: #3b82f6;
+            color: #fff;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+        .version {
+            font-size: 14px;
+            color: #64748b;
+        }
+        .info-card {
+            background-color: #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        .info-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .info-label {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-size: 14px;
+            color: #475569;
+        }
+        .card {
+            background-color: #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .card-text {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.5;
+        }
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #64748b;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 20px;
+        }
+        .nav-item.active {
+            background-color: #bfdbfe;
+            color: #2563eb;
+        }
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+        }
+        .nav-label {
+            font-size: 12px;
+        }
+        .badge {
+            background-color: #3b82f6;
+            color: #fff;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -4px;
+            right: -4px;
+        }
+        .nav-item {
+            position: relative;
+        }
+        .app-list {
+            margin-bottom: 20px;
+        }
+        .app-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            margin-bottom: 10px;
+        }
+        .app-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            margin-right: 12px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .app-info {
+            flex: 1;
+        }
+        .app-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .app-pkg {
+            font-size: 12px;
+            color: #64748b;
+        }
+        .root-tag {
+            background-color: #3b82f6;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 4px;
+            display: inline-block;
+        }
+        .add-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: #bfdbfe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #2563eb;
+            cursor: pointer;
+        }
+        .module-list {
+            margin-bottom: 20px;
+        }
+        .module-item {
+            background-color: #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .module-info h3 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .module-info p {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .module-desc {
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        .module-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .module-tag {
+            background-color: #3b82f6;
+            color: #fff;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .module-size {
+            background-color: #bfdbfe;
+            color: #2563eb;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .module-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .module-action {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: #bfdbfe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 56px;
+            height: 32px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 32px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #3b82f6;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        .settings-list {
+            margin-bottom: 20px;
+        }
+        .settings-category {
+            background-color: #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .settings-category h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #cbd5e1;
+        }
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        .setting-info {
+            display: flex;
+            align-items: center;
+        }
+        .setting-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .setting-label {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .setting-desc {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .setting-value {
+            display: flex;
+            align-items: center;
+        }
+        .color-options {
+            display: flex;
+            gap: 8px;
+        }
+        .color-option {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .color-option.blue {
+            background-color: #3b82f6;
+        }
+        .color-option.gray {
+            background-color: #64748b;
+        }
+        .color-option.purple {
+            background-color: #8b5cf6;
+        }
+        .dpi-slider {
+            width: 100%;
+            margin: 12px 0;
+        }
+        .dpi-options {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .dpi-option {
+            padding: 6px 12px;
+            border-radius: 8px;
+            background-color: #e2e8f0;
+            cursor: pointer;
+        }
+        .dpi-option.active {
+            background-color: #bfdbfe;
+            color: #2563eb;
+        }
+        .dpi-custom {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+        .apply-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #bfdbfe;
+            color: #2563eb;
+            text-align: center;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+        .back-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- 主页 -->
+    <div id="home" class="page active">
+        <div class="header">
+            <h1>SukiSU Ultra</h1>
+            <div class="icon" onclick="window.location.href='https://dong0201.github.io/root/home.html'">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM12 6V8M12 16V18" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+        <div class="status-card">
+            <div class="status-header">
+                <div class="check-icon"></div>
+                <span class="status-text">工作中</span>
+                <span class="lkm-tag">GKI 2.0</span>
+            </div>
+            <div class="version">版本：v3.1.9-b8b75349@Dong定制版</div>
+        </div>
+        <div class="info-card">
+            <div class="info-item">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="6" width="12" height="12" rx="2" stroke="#1e293b" stroke-width="2"/>
+                        <rect x="8" y="8" width="8" height="8" rx="1" stroke="#1e293b" stroke-width="1"/>
+                        <line x1="12" y1="6" x2="12" y2="5" stroke="#1e293b" stroke-width="2"/>
+                        <line x1="12" y1="19" x2="12" y2="20" stroke="#1e293b" stroke-width="2"/>
+                        <line x1="5" y1="12" x2="6" y2="12" stroke="#1e293b" stroke-width="2"/>
+                        <line x1="19" y1="12" x2="20" y2="12" stroke="#1e293b" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="info-label">内核版本</div>
+                    <div class="info-value">6.6.168-android15-8-o-01140-g043e86cdd499</div>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM16.5 8.25C16.5 9.2 15.7 10 14.75 10H9.25C8.3 10 7.5 9.2 7.5 8.25C7.5 7.3 8.3 6.5 9.25 6.5H14.75C15.7 6.5 16.5 7.3 16.5 8.25Z" fill="#1e293b"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="info-label">Android 版本</div>
+                    <div class="info-value">15</div>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="6" y="2" width="12" height="20" rx="2" stroke="#1e293b" stroke-width="2"/>
+                        <rect x="8" y="4" width="8" height="16" rx="1" stroke="#1e293b" stroke-width="1"/>
+                        <circle cx="12" cy="10" r="2" fill="#1e293b"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="info-label">设备</div>
+                    <div class="info-value">一加 Ace 5 隐藏定制机</div>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="8" stroke="#1e293b" stroke-width="2"/>
+                        <path d="M12 8L12 12L16 14" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 16L12 12L8 8" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="info-label">管理器版本</div>
+                    <div class="info-value">v3.1.9 (13307)</div>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7.8 7.8L16.2 16.2" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7.8 16.2L16.2 7.8" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="info-label">钩子类型</div>
+                    <div class="info-value">Kprobes</div>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 8V12M12 16H12.01" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="info-label">SELinux 状态</div>
+                    <div class="info-value">强制执行</div>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 8L12 16M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="info-label">Zygisk 实现</div>
+                    <div class="info-value">Zygisk Next</div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">SukiSU Ultra 展望</div>
+            <div class="card-text">SukiSU Ultra 未来将会成为一个相对独立的 KSU 分支，但是依然感谢官方 KernelSU 和 MKSU 等做出的贡献</div>
+        </div>
+        <div class="card">
+            <div class="card-title">支持开发</div>
+            <div class="card-text">KernelSU 将保持免费开源，向开发者捐赠以表示支持。</div>
+        </div>
+        <div class="card">
+            <div class="card-title">了解 KernelSU</div>
+            <div class="card-text">了解如何安装 KernelSU 以及如何开发模块</div>
+        </div>
+    </div>
+
+    <!-- 超级用户页 -->
+    <div id="superuser" class="page">
+        <div class="header">
+            <h1>超级用户</h1>
+            <div class="icons">
+                <div class="icon" onclick="window.location.href='https://dong0201.github.io/root/home.html'">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 2C6.03 2 2 6.03 2 11C2 15.97 6.03 20 11 20C15.97 20 20 15.97 20 11C20 6.03 15.97 2 11 2ZM11 18C7.13 18 4 14.87 4 11C4 7.13 7.13 4 11 4C14.87 4 18 7.13 18 11C18 14.87 14.87 18 11 18ZM13.12 13.88L17 10" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="icon" onclick="window.location.href='https://dong0201.github.io/root/home.html'">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="2" fill="#1e293b"/>
+                        <circle cx="12" cy="18" r="2" fill="#1e293b"/>
+                        <circle cx="12" cy="6" r="2" fill="#1e293b"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="app-list">
+            <div class="app-item">
+                <div class="app-icon">
+                    <img src="suki.png" alt="LuckyTool" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                </div>
+                <div class="app-info">
+                    <div class="app-name">LuckyTool</div>
+                    <div class="app-pkg">com.luckyzyyx.luckytool</div>
+                    <div class="root-tag">ROOT</div>
+                </div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">
+                    <img src="http://mt2.cn/logo.svg" alt="MT管理器" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                </div>
+                <div class="app-info">
+                    <div class="app-name">MT管理器</div>
+                    <div class="app-pkg">bin.mt.plus</div>
+                    <div class="root-tag">ROOT</div>
+                </div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">
+                    <img src="https://img1.ali213.net/shouyou/cover/8/10673489.jpg" alt="Scene" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                </div>
+                <div class="app-info">
+                    <div class="app-name">Scene</div>
+                    <div class="app-pkg">com.omarea.vtools</div>
+                    <div class="root-tag">ROOT</div>
+                </div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">
+                    <img src="suki.png" alt="数据备份" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                </div>
+                <div class="app-info">
+                    <div class="app-name">数据备份</div>
+                    <div class="app-pkg">com.xayah.databackup.foss</div>
+                    <div class="root-tag">ROOT</div>
+                </div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">
+                    <img src="https://img.downkuai.com/logo/20250520/a83bc7a6dcc62b5c42e27a47ac89a43b.png" alt="爱玩机工具箱" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                </div>
+                <div class="app-info">
+                    <div class="app-name">爱玩机工具箱</div>
+                    <div class="app-pkg">com.byyoung.setting</div>
+                    <div class="root-tag">ROOT</div>
+                </div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">
+                    <img src="suki.png" alt="落叶" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                </div>
+                <div class="app-info">
+                    <div class="app-name">落叶</div>
+                    <div class="app-pkg">com.dragon.android.pandaspace</div>
+                    <div class="root-tag">ROOT</div>
+                </div>
+            </div>
+            <div class="app-item">
+                <div class="app-icon">
+                    <img src="https://img.downkuai.com/logo/20250707/0968ff12d070ef4bc36abccef4b46aea.png" alt="隐藏BL列表" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                </div>
+                <div class="app-info">
+                    <div class="app-name">隐藏BL列表</div>
+                    <div class="app-pkg">com.topmiaohan.hidebllist</div>
+                    <div class="root-tag">ROOT</div>
+                </div>
+            </div>
+        </div>
+        <div class="add-btn" onclick="window.location.href='https://dong0201.github.io/root/home.html'">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="12" y1="5" x2="12" y2="19" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="5" y1="12" x2="19" y2="12" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 模块页 -->
+    <div id="module" class="page">
+        <div class="header">
+            <h1>模块</h1>
+            <div class="icons">
+                <div class="icon" onclick="window.location.href='https://dong0201.github.io/root/home.html'">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 2C6.03 2 2 6.03 2 11C2 15.97 6.03 20 11 20C15.97 20 20 15.97 20 11C20 6.03 15.97 2 11 2ZM11 18C7.13 18 4 14.87 4 11C4 7.13 7.13 4 11 4C14.87 4 18 7.13 18 11C18 14.87 14.87 18 11 18ZM13.12 13.88L17 10" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="icon" onclick="window.location.href='https://dong0201.github.io/root/home.html'">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="2" fill="#1e293b"/>
+                        <circle cx="12" cy="18" r="2" fill="#1e293b"/>
+                        <circle cx="12" cy="6" r="2" fill="#1e293b"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="module-list">
+            <div class="module-item">
+                <div class="module-header">
+                    <div class="module-info">
+                        <h3>Zygisk Maphide</h3>
+                        <p>版本: 2.0 · 作者: HuskyDG</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="module-desc">Wipe out the traces of mounted files of Magisk module</div>
+                <div class="module-tags">
+                    <div class="module-tag">zygisk-maphide</div>
+                    <div class="module-size">154.5 KB</div>
+                </div>
+                <div class="module-actions">
+                    <div class="module-action" onclick="alert('删除成功，重启后生效')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4ZM6 19A2 2 0 0 0 8 21H16A2 2 0 0 0 18 19V7H6V19Z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="module-item">
+                <div class="module-header">
+                    <div class="module-info">
+                        <h3>Zygisk Next</h3>
+                        <p>版本: 1.2.9 (521-e73dbfc-release) · 作者: 5ec1cff, Nullptr</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="module-desc">[✔️Zygote64 Injected. ✔️Zygote32 Injected. Root: ✔️KernelSU (13307)] Standalone implementation of Zygisk.</div>
+                <div class="module-tags">
+                    <div class="module-tag">zygisksu</div>
+                    <div class="module-size">3.6 MB</div>
+                </div>
+                <div class="module-actions">
+                    <div class="module-action" onclick="alert('正在抓取日志log')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="4" width="18" height="18" rx="2" stroke="#2563eb" stroke-width="2" fill="none"/>
+                            <line x1="16" y1="8" x2="8" y2="8" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="16" y1="12" x2="8" y2="12" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="16" y1="16" x2="8" y2="16" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="module-action" onclick="alert('当前已是最新版本，无需更新')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 1V23M8 13L12 9L16 13" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="module-action" onclick="alert('删除成功，重启后生效')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4ZM6 19A2 2 0 0 0 8 21H16A2 2 0 0 0 18 19V7H6V19Z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="module-action" style="position: fixed; bottom: 80px; right: 20px; width: 56px; height: 56px; border-radius: 50%; background-color: #3b82f6; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3V15M15 9L9 9M21 12C21 16.97 16.97 21 12 21C7.03 21 3 16.97 3 12C3 7.03 7.03 3 12 3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- 设置页 -->
+    <div id="settings" class="page">
+        <div class="header">
+            <div class="back-icon" onclick="window.location.href='https://dong0201.github.io/root/home.html'">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 12H5M12 19L5 12L12 5" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h1>更多设置</h1>
+            <div class="icons">
+                <div style="visibility: hidden;">·</div>
+            </div>
+        </div>
+        <div class="settings-list">
+            <div class="settings-category">
+                <h3>外观设置</h3>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="#1e293b" stroke-width="2" fill="none"/>
+                                <path d="M12 2L12 6M12 18L12 22M2 12L6 12M18 12L22 12" stroke="#1e293b" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">应用语言</div>
+                            <div class="setting-desc">跟随系统</div>
+                        </div>
+                    </div>
+                    <div class="setting-value" onclick="alert('In English, okay')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 16V12M12 8V4" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">主题模式</div>
+                            <div class="setting-desc">跟随系统</div>
+                        </div>
+                    </div>
+                    <div class="setting-value" onclick="alert('主题模式')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">动态颜色</div>
+                            <div class="setting-desc">使用系统主题的动态颜色</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">主题颜色</div>
+                            <div class="setting-desc">蓝色</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <div class="color-options">
+                            <div class="color-option blue" onclick="alert('已设置为蓝色重启生效')"></div>
+                            <div class="color-option gray" onclick="alert('已设置为灰色重启生效')"></div>
+                            <div class="color-option purple" onclick="alert('已设置为紫色重启生效')"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-category">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon" style="color: #3b82f6;">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 4H18M6 8H18M12 12H18M12 16H18" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">应用 DPI</div>
+                            <div class="setting-desc">仅调整当前应用的屏幕显示密度</div>
+                        </div>
+                    </div>
+                    <div class="setting-value" style="color: #3b82f6;">
+                        <div>超大</div>
+                    </div>
+                </div>
+                <input type="range" min="1" max="10" value="8" class="dpi-slider" style="accent-color: #3b82f6;">
+                <div class="dpi-options">
+                    <div class="dpi-option" onclick="alert('小DPIokay成功重启生效')">小</div>
+                    <div class="dpi-option" onclick="alert('中DPIokay成功重启生效')">中</div>
+                    <div class="dpi-option" onclick="alert('大DPIokay成功重启生效')">大</div>
+                    <div class="dpi-option active" onclick="alert('设置成功重启后生效')">超大</div>
+                </div>
+                <div class="dpi-custom">自定义: 560</div>
+                <div class="apply-btn">✓ 应用 DPI 设置</div>
+            </div>
+            <div class="settings-category">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="3" width="18" height="18" rx="2" stroke="#1e293b" stroke-width="2" fill="none"/>
+                                <rect x="8" y="8" width="8" height="8" rx="1" stroke="#1e293b" stroke-width="1" fill="none"/>
+                                <path d="M12 10L12 12M14 12L12 14" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">自定义背景</div>
+                            <div class="setting-desc">选择一张图片作为应用背景</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-category">
+                <h3>个性化设置</h3>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon" style="color: #3b82f6;">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">备选图标</div>
+                            <div class="setting-desc">更换为 KernelSU 图标</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="#1e293b" stroke-width="2" fill="none"/>
+                                <path d="M12 8V16M8 12H16" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">显示更多模块信息</div>
+                            <div class="setting-desc">显示额外的模块信息，如更新配置 URL 等</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">简洁模式</div>
+                            <div class="setting-desc">开启后将隐藏不必要的卡片</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">内核版本简洁模式</div>
+                            <div class="setting-desc">启用或禁用 SukiSU 内核版本显示的简洁模式</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">隐藏内核版本号</div>
+                            <div class="setting-desc">隐藏内核部分的 KernelSU 版本号</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">强迫症开关</div>
+                            <div class="setting-desc">隐藏导航栏上的超级用户数、模块数和 KPM 模块数红点</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">隐藏 SuSFS 状态信息</div>
+                            <div class="setting-desc">隐藏主页上的 SuSFS 状态信息</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">隐藏 Zygisk 状态信息</div>
+                            <div class="setting-desc">隐藏主页上的 Zygisk 实现状态信息</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">隐藏 KPM 功能</div>
+                            <div class="setting-desc">在主页和底栏隐藏 KPM 相关功能和信息</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">隐藏链接卡片</div>
+                            <div class="setting-desc">隐藏主页上的链接卡片信息</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8L12 12M8 12L16 12" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">隐藏模块标签行</div>
+                            <div class="setting-desc">隐藏模块卡片中的文件夹名称和大小标签</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-category">
+                <h3>高级设置</h3>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8V12M12 16H12.01" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">SELinux</div>
+                            <div class="setting-desc">强制执行</div>
+                        </div>
+                    </div>
+                    <div class="setting-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 8V12M12 16H12.01" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="setting-label">动态管理器配置</div>
+                            <div class="setting-desc">未启用</div>
+                        </div>
+                    </div>
+                    <div class="setting-value" onclick="alert('动态管理器配置点击事件')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <div class="nav-item active" onclick="switchPage('home')">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L12 6M12 18L12 22M2 12L6 12M18 12L22 12" stroke="#2563eb" stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="nav-label">主页</div>
+        </div>
+        <div class="nav-item" onclick="switchPage('superuser')">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 8V12M12 16H12.01" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="nav-label">超级用户</div>
+            <div class="badge">7</div>
+        </div>
+        <div class="nav-item" onclick="switchPage('module')">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 18L15 12L9 6" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="nav-label">模块</div>
+            <div class="badge">17</div>
+        </div>
+        <div class="nav-item" onclick="switchPage('settings')">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 8L12 12M8 12L16 12" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="nav-label">设置</div>
+        </div>
+    </div>
+
+    <script>
+        function switchPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            const navItems = document.querySelectorAll('.nav-item');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            document.querySelector(`.nav-item[onclick="switchPage('${pageId}')"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>
