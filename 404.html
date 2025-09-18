@@ -1,4 +1,68 @@
-<h1>对不起我错了</h1>
-<h1>该网站已停止运营</h1>
-<h1>By.Dong</h1>
-<h1>20250918</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>404 Fuck You MAF</title>
+  </head>
+  <body>	
+	<h1></h1>
+<h1>你妈死了犯贱是不是</h1>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <!-- 内容容器 -->
+    <div class="max-w-md w-full bg-white rounded-xl shadow-sm p-6 md:p-8 text-center">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">FUCK YOU</h1>
+        <p class="text-gray-600 mb-6">
+            Are you a beast?
+          <p>  该网站已停止运营</p>
+        <p>    有事私聊我</p>
+        </p>
+        <!-- 跳转倒计时提示 -->
+        <p class="text-primary font-medium">
+            倒计时 <span id="countdown">5</span> 
+        </p>
+        <!-- 手动跳转链接（备用） -->
+        <p class="mt-4 text-sm text-gray-500">
+            若未自动跳转，可点击 <a href="https://qm.qq.com/q/WstPXBelK6" class="text-primary underline" target="_blank">此处</a> 手动访问
+        </p>
+    </div>
+
+    <!-- 自动跳转脚本 -->
+    <script>
+        // 1. 设置跳转目标（替换为你需要的网站URL）
+        const targetUrl = "https://qm.qq.com/q/WstPXBelK6";
+        // 2. 设置跳转延迟（单位：毫秒，2000ms = 2秒）
+        const delay = 5000;
+
+        // 可选：倒计时数字动态变化（增强用户感知）
+        let countdown = 5;
+        const countdownElement = document.getElementById('countdown');
+        const timer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            if (countdown <= 0) clearInterval(timer);
+        }, 1000);
+
+        // 核心：延迟后自动跳转
+        setTimeout(() => {
+            window.location.href = targetUrl;
+        }, delay);
+    </script>
+</body>
+</html>
+
