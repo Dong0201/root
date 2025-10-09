@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>栋.客服举报系统</title>
+    <style>
+        /* 原有样式保持不变 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 20px;
+            color: #333;
+        }
+        .btn {
+            padding: 8px 15px;
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+        .modal-btn {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .record-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .status-processing {
+            background-color: #faad14;
+            color: white;
+        }
+        .status-success {
+            background-color: #52c41a;
+            color: white;
+        }
+        .status-failed {
+            background-color: #f5222d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 举报表单页面 -->
+        <div id="report-form">
+            <div class="header">
+                <h1>举报用户</h1>
+                <button class="btn" id="view-records">举报记录</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="username">被举报客服账号</label>
+                <input type="text" id="username" placeholder="请输入被举报客服的工号">
+            </div>
+            
+            <div class="form-group">
+                <label for="reason">举报理由</label>
+                <select id="reason">
+                    <option value="">请选择举报理由</option>
+                    <option value="欺诈仿冒">欺诈仿冒</option>
+                    <option value="骚扰行为">骚扰行为</option>
+                    <option value="言语辱骂">言语辱骂</option>
+                    <option value="垃圾广告">垃圾广告</option>
+                    <option value="其他原因">其他原因</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="details">详细说明</label>
+                <textarea id="details" placeholder="请详细描述举报原因，提供相关证据或说明"></textarea>
+            </div>
+            
+            <button class="submit-btn" id="submit-report">提交举报</button>
+        </div>
+        
+        <!-- 举报记录页面 -->
+        <div id="report-records" style="display:none;">
+            <div class="header">
+                <h1>举报记录</h1>
+                <button class="btn" id="back-to-form">返回</button>
+            </div>
+            
+            <div id="records-list">
+                <!-- 记录将通过JS动态生成 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 提交成功弹窗 -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content">
+            <p>举报已提交成功！</p>
+            <p>我们会在1-3个工作日内处理您的举报，请耐心等待。</p>
+            <button class="modal-btn" id="close-success">确定</button>
+        </div>
+    </div>
+    
+    <!-- 状态详情弹窗 -->
+    <div class="modal" id="status-modal">
+        <div class="modal-content">
+            <p id="status-message"></p>
+            <p id="action-detail" style="margin-top: 10px;"></p>
+            <button class="modal-btn" id="close-status">确定</button>
+        </div>
+    </div>
+    
+    <script>
+        // 使用localStorage存储举报数据
+        const STORAGE_KEY = 'community_reports';
+        const ADMIN_STORAGE_KEY = 'admin_reports';
+        
+        // 获取举报列表
+        function getReports() {
+            const reports = localStorage.getItem(STORAGE_KEY);
+            return reports ? JSON.parse(reports) : [];
+        }
+        
+        // 保存举报列表
+        function saveReports(reports) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(reports));
+        }
+        
+        // 获取管理员举报列表
+        function getAdminReports() {
+            const reports = localStorage.getItem(ADMIN_STORAGE_KEY);
+            return reports ? JSON.parse(reports) : [];
+        }
+        
+        // 保存管理员举报列表
+        function saveAdminReports(reports) {
+            localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(reports));
+        }
+        
+        // DOM元素
+        const reportForm = document.getElementById('report-form');
+        const reportRecords = document.getElementById('report-records');
+        const viewRecordsBtn = document.getElementById('view-records');
+        const backToFormBtn = document.getElementById('back-to-form');
+        const submitBtn = document.getElementById('submit-report');
+        const recordsList = document.getElementById('records-list');
+        const successModal = document.getElementById('success-modal');
+        const closeSuccessBtn = document.getElementById('close-success');
+        const statusModal = document.getElementById('status-modal');
+        const statusMessage = document.getElementById('status-message');
+        const actionDetail = document.getElementById('action-detail');
+        const closeStatusBtn = document.getElementById('close-status');
+        
+        // 切换页面
+        viewRecordsBtn.addEventListener('click', function() {
+            reportForm.style.display = 'none';
+            reportRecords.style.display = 'block';
+            loadRecords();
+        });
+        
+        backToFormBtn.addEventListener('click', function() {
+            reportForm.style.display = 'block';
+            reportRecords.style.display = 'none';
+        });
+        
+        // 提交举报
+        submitBtn.addEventListener('click', function() {
+            const username = document.getElementById('username').value;
+            const reason = document.getElementById('reason').value;
+            const details = document.getElementById('details').value;
+            
+            if (!username || !reason) {
+                alert('请填写被举报用户账号和举报理由');
+                return;
+            }
+            
+            // 获取当前用户举报列表
+            const userReports = getReports();
+            // 获取管理员举报列表
+            const adminReports = getAdminReports();
+            
+            // 创建新举报
+            const newReport = {
+                id: Date.now(),
+                username,
+                reason,
+                details,
+                status: "processing",
+                action: "",
+                timestamp: new Date().toISOString()
+            };
+            
+            // 添加到用户举报列表
+            userReports.unshift(newReport);
+            saveReports(userReports);
+            
+            // 添加到管理员举报列表
+            adminReports.unshift({
+                ...newReport,
+                reporter: "匿名用户" // 实际应用中这里应该是当前登录用户
+            });
+            saveAdminReports(adminReports);
+            
+            // 清空表单
+            document.getElementById('username').value = '';
+            document.getElementById('reason').value = '';
+            document.getElementById('details').value = '';
+            
+            // 显示成功弹窗
+            successModal.style.display = 'flex';
+        });
+        
+        // 加载举报记录
+        function loadRecords() {
+            recordsList.innerHTML = '';
+            const reports = getReports();
+            
+            if (reports.length === 0) {
+                recordsList.innerHTML = '<p style="text-align:center;padding:20px;">暂无举报记录</p>';
+                return;
+            }
+            
+            reports.forEach(report => {
+                const recordItem = document.createElement('div');
+                recordItem.className = 'record-item';
+                
+                let statusClass = 'status-processing';
+                let statusText = '正在处理';
+                
+                if (report.status === 'success') {
+                    statusClass = 'status-success';
+                    statusText = '举报成功';
+                } else if (report.status === 'failed') {
+                    statusClass = 'status-failed';
+                    statusText = '举报失败';
+                }
+                
+                recordItem.innerHTML = `
+                    <p><strong>被举报用户:</strong> ${report.username}</p>
+                    <p><strong>举报理由:</strong> ${report.reason}</p>
+                    <p><strong>状态:</strong> <span class="status ${statusClass}">${statusText}</span></p>
+                    <p><strong>处理方式:</strong> ${report.action || '-'}</p>
+                `;
+                
+                // 添加点击事件
+                recordItem.addEventListener('click', function() {
+                    showStatusDetail(report);
+                });
+                
+                recordsList.appendChild(recordItem);
+            });
+        }
+        
+        // 显示状态详情
+        function showStatusDetail(report) {
+            if (report.status === 'processing') {
+                statusMessage.textContent = '我们会在24小时之内处理，请不要着急';
+                actionDetail.textContent = '';
+            } else if (report.status === 'success') {
+                statusMessage.textContent = '感谢你的维护社区圈子，对方已被处罚';
+                actionDetail.textContent = `处理方式: ${report.action}`;
+            } else if (report.status === 'failed') {
+                statusMessage.textContent = '很遗憾，你举报的用户没有违反社区规定';
+                actionDetail.textContent = '';
+            }
+            
+            statusModal.style.display = 'flex';
+        }
+        
+        // 关闭弹窗
+        closeSuccessBtn.addEventListener('click', function() {
+            successModal.style.display = 'none';
+        });
+        
+        closeStatusBtn.addEventListener('click', function() {
+            statusModal.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
