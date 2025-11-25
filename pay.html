@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>支付页面 - 刷机服务</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4361EE',
+            secondary: '#FF6B6B',
+            wechat: '#07C160',
+            alipay: '#1677FF',
+            dark: '#1A1A2E',
+            light: '#F7F9FC'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .card-hover {
+        @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+      }
+      .btn-hover {
+        @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5;
+      }
+      .gradient-bg {
+        @apply bg-gradient-to-br from-primary/5 to-secondary/5;
+      }
+      .qr-hover {
+        @apply transition-all duration-500 hover:scale-105;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-light font-sans min-h-screen gradient-bg">
+  <!-- 顶部导航 -->
+  <nav class="bg-white/80 backdrop-blur-md py-3 sticky top-0 z-50 shadow-sm border-b border-gray-100">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <i class="fa fa-code-fork text-primary mr-2"></i>
+        <span class="font-bold text-gray-800">刷机服务支付</span>
+      </div>
+      <a href="#" class="text-gray-600 hover:text-primary transition-colors">
+      </a>
+    </div>
+  </nav>
+
+  <!-- 主要内容 -->
+  <main class="container mx-auto px-4 py-8">
+
+    <!-- 支付方式选择 -->
+    <div class="bg-white rounded-2xl shadow-md p-6 mb-8 card-hover">
+      <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+        <i class="fa fa-credit-card text-primary mr-2"></i>选择支付方式
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 微信支付 -->
+        <div class="border-2 border-transparent hover:border-wechat rounded-xl p-6 transition-all duration-300 cursor-pointer relative group">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 rounded-full bg-wechat/10 flex items-center justify-center text-wechat mr-4">
+              <i class="fa fa-weixin text-2xl"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-gray-800">微信支付</h3>
+              <p class="text-sm text-gray-500">扫码支付</p>
+            </div>
+            <div class="ml-auto">
+              <div class="w-5 h-5 rounded-full border-2 border-gray-300 group-hover:border-wechat transition-colors flex items-center justify-center">
+                <div class="w-3 h-3 rounded-full bg-wechat opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded-lg p-4 flex justify-center items-center">
+            <div class="relative qr-hover">
+              <img src="v.png" alt="微信收款码" class="w-40 h-40 object-cover rounded-lg">
+              <div class="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 hover:opacity-100 transition-opacity rounded-lg">
+                <span class="text-white font-medium">点击放大</span>
+              </div>
+            </div>
+          </div>
+          
+          <p class="text-center text-sm text-gray-500 mt-3">
+            请使用微信扫描上方二维码支付
+          </p>
+        </div>
+                <!-- 支付宝支付 -->
+        <div class="border-2 border-transparent hover:border-alipay rounded-xl p-6 transition-all duration-300 cursor-pointer relative group">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 rounded-full bg-alipay/10 flex items-center justify-center text-alipay mr-4">
+              <i class="fa fa-credit-card text-2xl"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-gray-800">支付宝支付</h3>
+              <p class="text-sm text-gray-500">扫码支付</p>
+            </div>
+            <div class="ml-auto">
+              <div class="w-5 h-5 rounded-full border-2 border-gray-300 group-hover:border-alipay transition-colors flex items-center justify-center">
+                <div class="w-3 h-3 rounded-full bg-alipay opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50 rounded-lg p-4 flex justify-center items-center">
+            <div class="relative qr-hover">
+              <img src="zfb.png" alt="支付宝收款码" class="w-40 h-40 object-cover rounded-lg">
+              <div class="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 hover:opacity-100 transition-opacity rounded-lg">
+                <span class="text-white font-medium">点击放大</span>
+              </div>
+            </div>
+          </div>
+          
+          <p class="text-center text-sm text-gray-500 mt-3">
+            请使用支付宝扫描上方二维码支付
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- 支付说明 -->
+    <div class="bg-white rounded-2xl shadow-md p-6 mb-8 card-hover">
+      <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+        <i class="fa fa-info-circle text-primary mr-2"></i>支付说明
+      </h2>
+      
+      <ul class="space-y-2 text-gray-600 text-sm">
+        <li class="flex items-start">
+          <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+          <span>支付完成后，请点击下方"已完成支付"按钮</span>
+        </li>
+        <li class="flex items-start">
+          <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+          <span>使用支付宝支付可打9折</span>
+        </li>
+        <li class="flex items-start">
+          <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+          <span>若支付出现问题，请联系客服处理</span>
+        </li>
+        <li class="flex items-start">
+          <i class="fa fa-check-circle text-green-500 mt-1 mr-2"></i>
+          <span>支付后请勿投诉退款，否则按不成功处理</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="flex flex-col sm:flex-row gap-4">
+      <button class="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-bold text-center btn-hover flex items-center justify-center">
+        <i class="fa fa-check-circle mr-2"></i>已完成支付
+      </button>
+
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-white/80 backdrop-blur-md py-6 mt-12 border-t border-gray-100">
+    <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+      <p>© 2025 栋.刷机服务平台 版权所有</p>
+      <p class="mt-2">支付安全保障 | 专业技术支持 | 30天无忧售后</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // 支付方式选择
+    document.querySelectorAll('.group').forEach(item => {
+      item.addEventListener('click', function() {
+        // 移除所有选中状态
+        document.querySelectorAll('.group').forEach(el => {
+          el.classList.remove('border-wechat', 'border-alipay');
+          el.classList.add('border-transparent');
+        });
+        
+        // 添加当前选中状态
+        if (this.querySelector('.fa-weixin')) {
+          this.classList.remove('border-transparent');
+          this.classList.add('border-wechat');
+        } else if (this.querySelector('.fa-credit-card')) {
+          this.classList.remove('border-transparent');
+          this.classList.add('border-alipay');
+        }
+      });
+    });
+    
+    // 已完成支付按钮点击事件
+    document.querySelector('.bg-primary').addEventListener('click', function() {
+      alert('若已完成支付，请带支付截图联系客服');
+    });
+        // 二维码点击放大功能
+    document.querySelectorAll('.qr-hover').forEach(qr => {
+      qr.addEventListener('click', function() {
+        const imgSrc = this.querySelector('img').src;
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black/80 z-50 flex items-center justify-center';
+        modal.innerHTML = `
+          <div class="bg-white p-4 rounded-xl max-w-md mx-4">
+            <img src="${imgSrc}" alt="收款码" class="w-full h-auto">
+            <button class="mt-4 w-full bg-primary text-white py-2 rounded-lg">
+              关闭
+            </button>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        
+        modal.querySelector('button').addEventListener('click', function() {
+          document.body.removeChild(modal);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
