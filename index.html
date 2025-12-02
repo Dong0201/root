@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,62 +66,10 @@
   </style>
 </head>
 <body>
-  <!-- 2. 音频标签：默认隐藏控件，通过悬浮窗控制 -->
-  <audio id="bgMusic" src="dong.mp3" loop>
-    您的浏览器不支持音频播放
-  </audio>
-
-  <!-- 3. 悬浮窗：显示播放/暂停状态 -->
-  <div class="music-float" id="musicBtn">▶ 播放</div>
-
-  <script>
-    // 4. JavaScript控制逻辑
-    const audio = document.getElementById('bgMusic');
-    const btn = document.getElementById('musicBtn');
-    let isPlaying = false; // 标记当前是否在播放
-
-    // 方法1：页面加载时尝试自动播放（规避浏览器拦截）
-    function autoPlay() {
-      // 先尝试直接自动播放，失败则监听用户首次点击后播放
-      audio.play().then(() => {
-        updateBtnStatus(true); // 播放成功，更新按钮文字
-      }).catch(() => {
-        // 浏览器拦截时，监听用户首次点击页面任意位置触发播放
-        document.addEventListener('click', function initPlay() {
-          audio.play().then(() => updateBtnStatus(true));
-          document.removeEventListener('click', initPlay); // 仅触发一次
-        }, { once: true });
-      });
-    }
-
-    // 方法2：更新悬浮窗按钮状态（播放→暂停，暂停→播放）
-    function updateBtnStatus(playing) {
-      isPlaying = playing;
-      btn.innerText = isPlaying ? '■ 暂停' : '▶ 播放';
-    }
-
-    // 方法3：点击悬浮窗切换播放/暂停
-    btn.addEventListener('click', () => {
-      if (isPlaying) {
-        audio.pause();
-        updateBtnStatus(false);
-      } else {
-        audio.play();
-        updateBtnStatus(true);
-      }
-    });
-
-    // 页面加载完成后，执行自动播放逻辑
-    window.onload = autoPlay;
-  </script>
-</body>
-</html>
 
   </style>
 </head>
-<meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>插入图片示例</title>
+
      <style>
          /* 可选：优化图片显示，避免拉伸/留白 */
          .web-image {
