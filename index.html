@@ -23,6 +23,87 @@
       color: #333;
     }
 
+    /* 轮播图容器样式 */
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+    
+    /* 轮播图片容器 */
+    .carousel-slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    
+    /* 轮播图片样式 */
+    .carousel-slide {
+      min-width: 100%;
+    }
+    
+    .carousel-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    /* 轮播控制按钮 */
+    .carousel-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.3);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+    
+    .carousel-control:hover {
+      opacity: 1;
+      background-color: rgba(0,0,0,0.5);
+    }
+    
+    .prev {
+      left: 10px;
+    }
+    
+    .next {
+      right: 10px;
+    }
+    
+    /* 轮播指示器 */
+    .carousel-indicators {
+      position: absolute;
+      bottom: 15px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    
+    .indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.5);
+      margin: 0 5px;
+      cursor: pointer;
+    }
+    
+    .indicator.active {
+      background-color: white;
+      transform: scale(1.2);
+    }
+
     /* 头部样式 */
     header {
       background: linear-gradient(135deg, #1E90FF, #4169E1);
@@ -192,39 +273,6 @@
       background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     }
 
-    /* 图片样式优化 */
-    .web-image {
-      width: 100%;
-      max-width: 800px;
-      height: auto;
-      display: block;
-      margin: 0 auto 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    }
-
-    /* 音乐悬浮窗样式优化 */
-    .music-float {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
-      color: white;
-      text-align: center;
-      line-height: 60px;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(255, 68, 68, 0.3);
-      z-index: 9999;
-      font-size: 1.2rem;
-    }
-
-    .music-float:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 20px rgba(255, 68, 68, 0.4);
-    }
 
     /* 页脚样式优化 */
     footer {
@@ -275,29 +323,40 @@
       header h1 {
         font-size: 1.5rem;
       }
-    }
 
-    /* 音乐悬浮窗样式（保留原有） */
-    .music-float {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #ff4444;
-      color: white;
-      text-align: center;
-      line-height: 60px;
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-      z-index: 9999;
+      .carousel-control {
+        padding: 8px 12px;
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- 图片展示 -->
-  <img class="web-image" src="root.jpg" alt="刷机服务平台封面">
+  <!-- 轮播图区域 - 替换原有单张图片 -->
+  <div class="carousel-container">
+    <div class="carousel-slides">
+      <div class="carousel-slide">
+        <img src="root1.jpg" alt="刷机服务封面1">
+      </div>
+      <div class="carousel-slide">
+        <img src="root2.jpg" alt="刷机服务封面2">
+      </div>
+      <div class="carousel-slide">
+        <img src="root3.jpg" alt="刷机服务封面3">
+      </div>
+    </div>
+    
+    <!-- 轮播控制按钮 -->
+    <button class="carousel-control prev">←</button>
+    <button class="carousel-control next">→</button>
+    
+    <!-- 轮播指示器 -->
+    <div class="carousel-indicators">
+      <span class="indicator active" data-index="0"></span>
+      <span class="indicator" data-index="1"></span>
+      <span class="indicator" data-index="2"></span>
+    </div>
+  </div>
 
   <!-- 弹窗欢迎提示 -->
   <script src="cAlert.js"></script>
@@ -309,6 +368,67 @@
         { tm: 5000 }
       ).then(function() {
         console.log('弹窗已关闭（2秒关闭动画已完成）');
+      });
+
+      // 轮播图功能实现
+      const slidesContainer = document.querySelector('.carousel-slides');
+      const slides = document.querySelectorAll('.carousel-slide');
+      const prevBtn = document.querySelector('.prev');
+      const nextBtn = document.querySelector('.next');
+      const indicators = document.querySelectorAll('.indicator');
+      let currentIndex = 0;
+      const slideCount = slides.length;
+      
+      // 更新轮播显示
+      function updateSlidePosition() {
+          slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+          
+          // 更新指示器状态
+          indicators.forEach((indicator, index) => {
+              if (index === currentIndex) {
+                  indicator.classList.add('active');
+              } else {
+                  indicator.classList.remove('active');
+              }
+          });
+      }
+      
+      // 下一张
+      function nextSlide() {
+          currentIndex = (currentIndex + 1) % slideCount;
+          updateSlidePosition();
+      }
+      
+      // 上一张
+      function prevSlide() {
+          currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+          updateSlidePosition();
+      }
+      
+      // 事件监听
+      nextBtn.addEventListener('click', nextSlide);
+      prevBtn.addEventListener('click', prevSlide);
+      
+      // 指示器点击事件
+      indicators.forEach(indicator => {
+          indicator.addEventListener('click', function() {
+              currentIndex = parseInt(this.getAttribute('data-index'));
+              updateSlidePosition();
+          });
+      });
+      
+      // 自动轮播
+      let slideInterval = setInterval(nextSlide, 2000); // 每2秒切换一次
+      
+      // 鼠标悬停时暂停自动轮播
+      const carouselContainer = document.querySelector('.carousel-container');
+      carouselContainer.addEventListener('mouseenter', () => {
+          clearInterval(slideInterval);
+      });
+      
+      // 鼠标离开时恢复自动轮播
+      carouselContainer.addEventListener('mouseleave', () => {
+          slideInterval = setInterval(nextSlide, 5000);
       });
     });
   </script>
@@ -385,7 +505,7 @@
     </div>
   </footer>
 
-  <!-- 音乐悬浮窗（保留原有） -->
+  <!-- 音乐悬浮窗 -->
   <div class="music-float">
     <i class="fa fa-music"></i>
   </div>
