@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>刷机服务主页 by.栋</title>
+  <!-- 引入Font Awesome图标增强视觉 -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    /* 全局样式重置与基础配置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: all 0.3s ease; /* 统一过渡动画 */
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    /* 头部样式 */
+    header {
+      background: linear-gradient(135deg, #1E90FF, #4169E1);
+      color: white;
+      text-align: center;
+      padding: 25px 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    /* 主容器 */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* 通用区块样式 */
+    section {
+      margin-bottom: 40px;
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
+
+    /* 标题样式 */
+    h2 {
+      color: #2c3e50;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e8f4fd;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+    }
+
+    h2::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 20px;
+      background-color: #1E90FF;
+      margin-right: 10px;
+      border-radius: 2px;
+    }
+
+    /* 欢迎区块特殊样式 */
+    .welcome-section {
+      background: linear-gradient(135deg, #e8f4fd 0%, #f0f8ff 100%);
+      border: 1px solid #d1e7ff;
+    }
+
+    .welcome-section p {
+      line-height: 1.6;
+      color: #495057;
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+
+    /* 核心按钮/卡片样式 - 统一优化 */
+    div[class^="item"] {
+      background: white;
+      border: 1px solid #e0e7ff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 卡片悬停效果 */
+    div[class^="item"]:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(30, 144, 255, 0.12);
+      border-color: #1E90FF;
+    }
+
+    /* 卡片内标题样式 */
+    div[class^="item"] h3 {
+      margin-top: 0;
+      color: #2c3e50;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    /* 卡片图标样式 */
+    div[class^="item"] h3 i {
+      margin-right: 10px;
+      color: #1E90FF;
+      font-size: 1.2rem;
+    }
+
+    /* 卡片描述文本 */
+    div[class^="item"] p {
+      color: #6c757d;
+      line-height: 1.5;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    /* 不同分类卡片的图标配色区分 */
+    .item1 h3 i { color: #38b2ac; }    /* 客服 */
+    .item3 h3 i { color: #1E90FF; }    /* 刷机工具 */
+    .item4 h3 i { color: #4299e1; }    /* 远程工具 */
+    .item5 h3 i { color: #9f7aea; }    /* AI工具 */
+    .item6 h3 i { color: #ed8936; }    /* 模拟器 */
+
+    /* 卡片右侧箭头装饰 */
+    div[class^="item"]::after {
+      content: '\f061';
+      font-family: 'FontAwesome';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #e2e8f0;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    div[class^="item"]:hover::after {
+      color: #1E90FF;
+      right: 16px;
+    }
+
+    /* 服务器面板按钮样式 */
+    .admin-btn {
+      display: inline-block;
+      margin: 20px 0 30px;
+    }
+
+    .admin-btn button {
+      background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+      display: flex;
+      align-items: center;
+    }
+
+    .admin-btn button i {
+      margin-right: 8px;
+    }
+
+    .admin-btn button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(74, 144, 226, 0.3);
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    }
+
+    /* 图片样式优化 */
+    .web-image {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      display: block;
+      margin: 0 auto 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    /* 音乐悬浮窗样式优化 */
+    .music-float {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+      color: white;
+      text-align: center;
+      line-height: 60px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 68, 68, 0.3);
+      z-index: 9999;
+      font-size: 1.2rem;
+    }
+
+    .music-float:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(255, 68, 68, 0.4);
+    }
+
+    /* 页脚样式优化 */
+    footer {
+      background: white;
+      backdrop-blur-md: 8px;
+      padding: 30px 20px;
+      margin-top: 40px;
+      border-top: 1px solid #e9ecef;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+
+    footer .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+
+    footer p {
+      margin: 8px 0;
+    }
+
+    /* 响应式适配 - 移动端优化 */
+    @media (max-width: 768px) {
+      main {
+        padding: 15px;
+      }
+
+      section {
+        padding: 18px;
+        margin-bottom: 25px;
+      }
+
+      div[class^="item"] {
+        padding: 16px;
+      }
+
+      h2 {
+        font-size: 1.15rem;
+      }
+
+      .admin-btn button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* 音乐悬浮窗样式（保留原有） */
+    .music-float {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #ff4444;
+      color: white;
+      text-align: center;
+      line-height: 60px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <!-- 图片展示 -->
+  <img class="web-image" src="root.jpg" alt="刷机服务平台封面">
+
+  <!-- 弹窗欢迎提示 -->
+  <script src="cAlert.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      cAlert.s(
+        '欢迎访问',
+        '欢迎来到我的网站，感谢您对我的信任与支持',
+        { tm: 5000 }
+      ).then(function() {
+        console.log('弹窗已关闭（2秒关闭动画已完成）');
+      });
+    });
+  </script>
+
+  <!-- 主内容 -->
+  <main>
+    <!-- 欢迎区块 -->
+    <section class="welcome-section">
+      <h2>欢迎来到Dong的刷机主页</h2>
+      <p>该站点由作者（Dong栋）自主研发的刷机，工具，为一体的多功能网站，欢迎您的使用</p>
+      
+      <h2>查看刷机详情</h2>
+      <div class="item1" onclick="window.location.href='dongkf.html'">
+        <h3><i class="fa fa-comments"></i>咨询在线客服</h3>
+        <p>1对1真人在线客服解答您的问题</p>
+      </div>
+    </section>
+
+    <!-- 工具下载 -->
+    <section>
+      <h2>工具下载</h2>
+      <div class="item3" onclick="window.location.href='https://www.lsdy.top'">
+        <h3><i class="fa fa-download"></i>刷机工具下载</h3>
+        <p>刷机工具，投屏工具，fastboot驱动下载</p>
+      </div>
+      <div class="item4" onclick="window.location.href='todesk.html'">
+        <h3><i class="fa fa-desktop"></i>远程控制软件下载教程（必看）</h3>
+        <p>Todesk远程控制软件的下载教程和使用方法</p>
+      </div>
+    </section>
+
+    <!-- 更多工具 -->
+    <section>
+      <h2>更多工具</h2>
+      <div class="item5" onclick="window.location.href='wt.html'">
+        <h3><i class="fa fa-question-circle"></i>问题助手</h3>
+        <p>可回答一些关于root的问题，适合小白使用</p>
+      </div>
+      <div class="item5" onclick="window.location.href='ai.html'">
+        <h3><i class="fa fa-robot"></i>DongChatAI问答</h3>
+        <p>作者自主研发的AI大模型，可回答所有问题，目前处于测试阶段</p>
+      </div>
+    </section>
+
+    <!-- 模拟器 -->
+    <section>
+      <h2>模拟器</h2>
+      <div class="item6" onclick="window.location.href='magisk.html'">
+        <h3><i class="fa fa-android"></i>Magisk模拟器</h3>
+        <p>用于小白熟练Magisk操作，进入后点击右下角加号开始模拟安装</p>
+      </div>
+      <div class="item6" onclick="window.location.href='suki.html'">
+        <h3><i class="fa fa-gamepad"></i>SukiUltra模拟器</h3>
+        <p>用于小白熟练SukiUltra操作，可自由探索</p>
+      </div>
+    </section>
+
+    <!-- 服务器面板按钮 -->
+    <div class="admin-btn">
+      <a href="admin.html" target="_blank">
+        <button>
+          <i class="fa fa-server"></i>
+          服务器面板配置管理入口
+        </button>
+      </a>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer>
+    <div class="container">
+      <p>© 2025 栋.刷机服务平台 版权所有</p>
+      <p>服务安全保障 | 专业技术支持 | 30天无忧售后</p>
+    </div>
+  </footer>
+
+  <!-- 音乐悬浮窗（保留原有） -->
+  <div class="music-float">
+    <i class="fa fa-music"></i>
+  </div>
+
+  <!-- 原有脚本 -->
+  <script type="text/javascript" src="https://myhkw.cn/player/js/jquery.min.js"></script>
+  <script type="text/javascript" id="myhk" src="https://myhkw.cn/api/player/1764650780108" key="1764650780108" m="1"></script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"8b717e60261641248e9738dd8195d250","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7f17cd1df2aef8',t:'MTc2NDcyMzI2OA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
