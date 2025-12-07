@@ -1,0 +1,706 @@
+<!doctype html>
+<html>
+ <head> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<title>栋的的分享屋</title> 
+  <link rel="icon" href="images/lsdy.ico" type="image/x-icon">
+  <style>
+        .hot_one * {
+            float: left;
+        }
+
+        .hot_one img {
+            width: 35px;
+            height: 35px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .app .search_one {
+            width: 235px;
+            height: 100px;
+            margin: 20px 0 10px;
+            float: left;
+            *margin: 0px;
+            overflow: hidden;
+        }
+
+        .app .search_one * {
+            float: left;
+        }
+
+        .app .search_one img {
+            width: 75px;
+            height: 75px;
+            margin-right: 10px;
+        }
+
+        .app .search_one span {
+            clear: both;
+            font-size: 14px;
+            width: 130px;
+        }
+
+        .one_right {
+            width: 150px;
+        }
+
+        .search_result a {
+            cursor: pointer;
+        }
+
+        /*.search_result span{color:#000;}*/
+        .search_result span b {
+            font-weight: normal;
+            color: #7f7f7f;
+        }
+
+        .search_result .right b {
+            color: #d9d9d9 !important;
+        }
+
+        .theme .search_one {
+            width: 138px;
+            height: 300px;
+            margin: 20px 50px 10px 0;
+            float: left;
+        }
+
+        .theme .search_one img {
+            width: 138px;
+            height: 230px;
+            margin-bottom: 7px;
+        }
+
+        .theme .search_one span {
+            float: left;
+            clear: both;
+            font-size: 14px;
+        }
+
+        .theme .price {
+            margin-top: 3px;
+        }
+
+        .search_one.right {
+            margin-right: 0;
+        }
+
+        .search_one img {
+            cursor: pointer
+        }
+
+        .title_18 a {
+            color: rgb(165, 165, 165);
+            cursor: pointer;
+        }
+
+        .price {
+            color: #32a5e7
+        }
+
+        .app .price {
+            margin-top: 6px;
+            clear: both;
+            *clear: none;
+            *margin: 25px 0 0 10px;
+        }
+
+        .developer {
+            margin-top: 20px;
+        }
+
+        .app.developer .search_one {
+            width: 235px;
+            height: 100px;
+            margin: 20px 20px 10px 0;
+            float: left;
+        }
+
+        .app.developer .search_one.right {
+            margin-right: 0;
+        }
+
+        @media (max-width: 1000px) {
+            /*.dev_right img{width: 40px;height: 30px;margin-bottom: -2px;}*/
+            /*.dev_right{margin-right: 120px;padding-right: 80px;}*/
+            .dev_right {
+                margin-top: 20px;
+                height: 40px;
+                vertical-align: middle;
+                font-size: 14px;
+                padding-right: 50px;
+            }
+        }
+
+        .one_right .app_name {
+            width: 130px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .search_tip span {
+            max-width: 180px;
+            vertical-align: middle;
+            margin-bottom: 3px;
+            width: auto;
+        }
+    </style> 
+  <style>
+        body {
+            background-color: #fff;
+            font-family: "微软雅黑", "Microsoft Yahei", Arial, Helvetica, sans-serif, "宋体";
+            letter-spacing: 1px;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            overflow-y: scroll;
+            *overflow-y: hidden;
+        }
+
+        body input, body textarea {
+            font-family: "微软雅黑", "Microsoft Yahei", Arial, Helvetica, sans-serif, "宋体";
+            outline: none;
+        }
+
+        div, h1, h2, h3, h4, p, form, label, input, textarea, img, span, dl, dd, dt, ol, ul, li, table, th, td, tr, thead, tfoot, tbody {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            list-style: none;
+            letter-spacing: 1px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+            cursor: pointer;
+            outline: none;
+        }
+
+        a:hover {
+            color: #32a5e7;
+            text-decoration: none;
+        }
+
+        a:focus {
+            text-decoration: none;
+        }
+
+        .right {
+            float: right;
+        }
+
+        i {
+            display: inline-block;
+            font-style: normal;
+        }
+
+        .none {
+            display: none;
+        }
+
+        .menu_head a {
+            color: rgb(165, 165, 165);
+            font-size: 14px;
+            float: left;
+        }
+
+        .menu_head .right * {
+            float: none;
+        }
+
+        .head {
+            position: relative;
+            width: 1000px;
+            margin: 70px auto 0;
+            *margin: 30px auto 0;
+        }
+
+        .content {
+            clear: both; /*border: solid rgb(190,190,190) 1px;*/
+            width: 1000px;
+            margin: 0 auto;
+            overflow-x: hidden;
+        }
+
+        .head a {
+            float: left;
+            height: 20px;
+            padding: 5px 10px;
+            text-align: center;
+            font-size: 28px;
+            color: #505050;
+            margin-left: 0px;
+            cursor: pointer;
+        }
+
+        .head a:hover {
+            color: deepskyblue;
+            cursor: pointer;
+        }
+
+        .content_nav {
+            clear: both;
+            height: 25px;
+            width: 100%;
+            margin: 30px 0 0;
+            vertical-align: middle;
+            color: #7f7f7f;
+        }
+
+        .content_nav .ellipsis {
+            vertical-align: top;
+            width: 500px;
+        }
+
+        div.jsonSuggestResults div.resultItem img {
+            float: left;
+            margin-right: 10px;
+        }
+
+        div.jsonSuggestResults div.resultItem span {
+            margin: 0px;
+            padding: 0px;
+            word-wrap: break-word;
+            overflow: hidden;
+            width: 190px;
+            white-space: nowrap;
+        }
+
+        .title_18 {
+            font-size: 18px;
+            height: 25px;
+            *float: left;
+        }
+
+        .c_156 {
+            color: rgb(156, 156, 156);
+        }
+
+        .line_1 {
+            width: 100%;
+            height: 1px;
+            background-color: rgb(217, 217, 217);
+            clear: both;
+            margin-top: 12px;
+            font-size: 0;
+            overflow: hidden;
+        }
+
+        .bgc_242 {
+            background-color: rgb(242, 242, 242) !important;
+        }
+
+        .price {
+            border: solid 1px rgb(221, 221, 221);
+            min-width: 45px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            float: right;
+            font-size: 12px;
+            border-radius: 3px;
+            color: #32a5e7;
+            *z-index: 100;
+            *position: relative;
+            *top: 20px;
+            *right: 70px;
+            *line-height: 16px;
+        }
+
+        .theme_one .price {
+            *top: 0;
+            *right: 0;
+            margin: 0;
+        }
+
+        .theme_list .price {
+            *top: 0;
+            *right: 0;
+            margin: 0;
+        }
+
+        .price:hover {
+            background-color: #32a5e7;
+            color: #FFFFFF !important;
+            border: none;
+        }
+
+        .rank ul li span {
+            position: relative;
+            top: -12px;
+            cursor: pointer;
+        }
+
+        .current {
+            color: #32a5e7 !important;
+        }
+
+        .banner_container ul {
+            position: absolute
+        }
+
+        .banner_container li {
+            float: right;
+        }
+
+        .banner_container img {
+            width: 1000px;
+            height: 400px;
+            float: left;
+            cursor: pointer;
+        }
+
+        .content_main {
+            width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .ellipsis {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 150px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tip_msg {
+            position: absolute;
+            z-index: 100;
+            border: solid 1px rgb(156, 156, 156);
+            background-color: #FFF;
+            border-radius: 5px;
+            padding: 2px 4px;
+            font-size: 12px;
+        }
+
+        .pageDiv a {
+            text-align: center;
+            margin-right: 4px;
+            padding: 0px 2px 0 2px;
+            display: block;
+            float: left;
+            cursor: pointer;
+            font-size: 13px;
+            color: #000;
+            border: solid 1px #E4E7E9;
+            background-color: #fff;
+            min-width: 28px;
+            _padding: 0 10px 0 10px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+        }
+
+        .pageDiv a:link, .pageDiv a:active, .pageDiv a:visited {
+            color: #515151;
+            text-decoration: none;
+        }
+
+        .pageDiv a:hover {
+            border: 1px solid #32a5e7;
+            color: #40abe9;
+            background-color: white;
+            text-decoration: none;
+        }
+
+        .app_category ul .download_left img {
+            margin: 0;
+        }
+
+        .download_right a {
+            line-height: 20px;
+        }
+
+        .rank ul li .download_right span {
+            top: 0;
+        }
+
+        .rank ul li .download_right a span {
+            top: -2px;
+        }
+
+        .headLogo i, .headLeft i {
+            _background-image: none;
+            _margin-left: 2px;
+            _margin-top: -82px;
+            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/base.png');
+        }
+
+        /*footer*/
+        .footerWrap {
+            position: relative;
+            width: 100%;
+            height: 130px;
+            border-top: solid 1px #E5E6E7;
+            background-color: rgb(255, 255, 255);
+            color: black;
+            left: 0;
+            bottom: 0;
+            margin-top: 50px;
+        }
+
+        .footerInner {
+            width: 1000px;
+            margin: 24px auto 30px;
+        }
+
+        .footer-layer1 {
+            height: 50px;
+            line-height: 50px;
+            overflow: hidden;
+        }
+
+        .footer-layer1 a:link {
+            color: black;
+        }
+
+        .footer-outerLink a {
+            margin-left: 10px;
+            display: inline-block;
+            overflow: hidden;
+            width: 32px;
+            height: 32px;
+        }
+
+        .footer-innerLink {
+            _padding-top: 15px;
+        }
+
+        .footer-outerLink i {
+            _background-image: none;
+            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='https://lsdy.top/images/itzs.png');
+        }
+
+        .footer-tencentMblog i {
+            background-position: -210px -91px;
+            _margin-left: -210px;
+            _margin-top: -91px;
+        }
+
+        .footer-sinaMblog i {
+            background-position: -168px -91px;
+            _margin-left: -168px;
+            _margin-top: -91px;
+        }
+
+        .footer-qzone i {
+            background-position: -294px -91px;
+            _margin-left: -294px;
+            _margin-top: -91px;
+        }
+
+        .footer-weChat i {
+            background-position: -252px -91px;
+            _margin-left: -252px;
+            _margin-top: -91px;
+        }
+
+        .footer-jubaoZhongxin i {
+            background-position: -336px -91px;
+            _margin-left: -252px;
+            _margin-top: -91px;
+        }
+
+        .footer-outerLink a {
+            cursor: pointer;
+        }
+
+        .footer-tencentMblog:hover i {
+            background-position: -210px -137px;
+        }
+
+        .footer-sinaMblog:hover i {
+            background-position: -168px -137px;
+        }
+
+        .footer-qzone:hover i {
+            background-position: -294px -137px;
+        }
+
+        .footer-weChat:hover i {
+            background-position: -252px -137px;
+        }
+
+        .footer-jubaoZhongxin:hover i {
+            background-position: -336px -137px;
+        }
+
+        .footer-language_menu a {
+            display: block;
+            height: 40px;
+            line-height: 40px;
+            width: 118px;
+            margin: 0px auto;
+            text-decoration: none;
+            border-bottom: solid 1px #E4E7E9;
+            font-size: 14px;
+            color: #000000;
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .copyrightInner span {
+            color: #a2a2a2;
+            float: left;
+        }
+
+        .copyrightInner a {
+            white-space: nowrap;
+            float: left;
+            color: #a2a2a2;
+            margin-left: 6px;
+        }
+
+        .alert_content img {
+            float: left;
+            width: 70px;
+            height: 72px;
+        }
+
+        .app_info ul {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+
+        .app_info ul li {
+            margin-top: 10px;
+        }
+
+        .app_info.app ul li {
+            margin-top: 8px;
+            *margin-top: 0;
+        }
+
+        .option_cont ul {
+            margin: 30px 0 0;
+            list-style: none;
+        }
+
+        .option_cont ul {
+            font-size: 14px;
+            margin-left: 45px;
+        }
+
+        .option_cont ul span {
+            display: block;
+            color: rgb(240, 117, 48);
+            margin: -12px 0 20px 18px;
+            font-size: 12px;
+        }
+
+        .app_info span {
+            width: 240px;
+            vertical-align: bottom;
+        }
+
+        .error_1 p {
+            margin: 20px 0 40px 0;
+            line-height: 28px;
+        }
+
+        #head_wrapper {
+            *position: relative;
+            z-index: 100;
+        }
+
+    </style> 
+ </head> 
+ <body> 
+  <div id="head_wrapper"> 
+   <div class="head current"> 
+    <a class="current">栋的刷机文件分享屋</a> 
+   </div> 
+   <div class="content"> 
+    <div class="content_nav"></div> 
+   </div> 
+  </div> 
+  <div class="tip_msg none"></div> 
+  <div id="wrapper"> 
+   <input type="hidden" id="hiddenParams" data-catetype="app"> 
+   <div class="content_main" style="min-height: 353px;"> 
+    <div class="line_1 bgc_242"></div> 
+    <div class="developer">
+     <span class="title_18 c_156" style="font-size: 13px;font-weight:800;color: #555555">欢迎来到栋的刷机下载中心，这里是刷机需要的文件及工具</span>
+     <div class="line_1 bgc_242"></div> 
+    </div> 
+    <div class="app developer download_container" id="app1"> 
+     <div class="search_one downloading right"> 
+      <a href="https://lsdy.lanzoui.com/b0bwa7gif"><img src="https://lsdy.top/images/gjzs.png"></a> 
+      <div class="one_right"> 
+       <a href="https://lsdy.lanzoui.com/b0bwa7gif"> <span class="app_name ellipsis" title="搞机助手">搞机助手</span> </a> 
+       <span style="font-size: 12px;color: #777777;margin-top: 6px;height: 32px">安卓必备刷机工具</span> 
+       <a href="https://lsdy.lanzoui.com/b0bwa7gif" class="price">下载</a> 
+      </div> 
+     </div> 
+     <div class="search_one downloading right"> 
+      <a href="https://lsdy.lanzouw.com/b02k5mlwrg"><img src="https://lsdy.top/images/aztp.png"></a> 
+      <div class="one_right"> 
+       <a href="https://lsdy.lanzouw.com/b02k5mlwrg"> <span class="app_name ellipsis" title="安卓投屏">安卓投屏</span> </a> 
+       <span style="font-size: 12px;color: #777777;margin-top: 6px;height: 32px">安卓设备投屏到电脑</span> 
+       <a href="https://lsdy.lanzouw.com/b02k5mlwrg" class="price">下载</a> 
+      </div> 
+
+     </div> 
+     <div class="search_one downloading right"> 
+      <a href="https://www.lanzouw.com/b0bw1lo9e"><img src="https://lsdy.top/images/azqd.png"></a> 
+      <div class="one_right"> 
+       <a href="https://www.lanzouw.com/b0bw1lo9e"> <span class="app_name ellipsis" title="一键安装安卓驱动">一键安装安卓驱动</span> </a> 
+       <span style="font-size: 12px;color: #777777;margin-top: 6px;height: 32px">集成安卓Adb和Fastboot驱动</span> 
+       <a href="https://www.lanzouw.com/b0bw1lo9e" class="price">下载</a> 
+      </div> 
+     </div> 
+     <div class="search_one downloading right"> 
+      <a href="https://www.123912.com/s/XwTqVv-fbsJ3"><img src="https://lsdy.top/images/itzs.png"></a> 
+      <div class="one_right"> 
+       <a href="https://www.123912.com/s/XwTqVv-fbsJ3"> <span class="app_name ellipsis" title="安装包下载">安装包下载</span> </a> 
+       <span style="font-size: 12px;color: #777777;margin-top: 6px;height: 32px">集成管理器,过环境文件安装包及教程</span> 
+       <a href="https://www.123912.com/s/XwTqVv-fbsJ3" class="price">下载</a> 
+      </div> 
+
+
+  <div style="display:none"> 
+   <script src="/z_stat_0bb428607f1e409d853cfb1f5887b9a6.html" language="JavaScript"></script> 
+  </div> 
+   <div id="flymeFooter" class="footerWrap"> 
+    <div class="footerInner"> 
+     <div class="footer-layer1"> 
+      <div class="footer-innerLink" style="font-size: 13px;color: #555555">
+
+      </div> 
+     </div> 
+     <div class="clear"></div> 
+    </div> 
+   </div>  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4b09077796367eb65ddbb7c91be70998";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+ </body>
+</html>
