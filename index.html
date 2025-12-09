@@ -55,6 +55,9 @@
       z-index: 1000;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
       border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      /* 防止导航栏与菜单之间出现缝隙 */
+      margin: 0;
+      border: none;
     }
 
     .navbar-container {
@@ -295,7 +298,19 @@
       padding: 30px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      transition: all 0.3s ease;
+      transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section.hidden {
+      opacity: 0;
+      transform: translateY(30px);
     }
 
     section:hover {
@@ -452,6 +467,19 @@
       gap: 20px;
       flex-wrap: wrap;
       align-items: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .btn-container.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn-container.hidden {
+      opacity: 0;
+      transform: translateY(30px);
     }
 
     /* 按钮样式 - 果冻效果+毛玻璃 */
@@ -524,9 +552,22 @@
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      padding: 40px 20px;
+      padding: 25px 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    footer.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer.hidden {
+      opacity: 0;
+      transform: translateY(30px);
     }
 
     footer .container {
@@ -534,14 +575,16 @@
       margin: 0 auto;
       text-align: center;
       color: #4a5568;
-      font-size: 1rem;
-      /* 页脚文字间距 */
-      letter-spacing: 0.8px;
+      /* 优化底部文字排版 */
+      font-size: 0.9rem;
+      line-height: 1.5;
+      letter-spacing: 0.5px;
     }
 
     footer p {
-      margin: 10px 0;
-      line-height: 1.7;
+      margin: 8px 0;
+      /* 缩小行高和间距 */
+      line-height: 1.4;
     }
 
     /* 响应式适配 - 移动端深度优化 */
@@ -553,20 +596,43 @@
 
       .nav-menu {
         position: fixed;
-        top: 70px;
+        top: 0; /* 修复顶部缝隙 */
         left: -100%;
         flex-direction: column;
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
+        /* 动态模糊毛玻璃背景 */
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
         width: 85%;
-        height: calc(100vh - 70px);
-        padding: 30px;
+        height: 100vh; /* 全屏高度 */
+        padding: 80px 30px 30px;
         gap: 15px;
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        box-shadow: 8px 0 30px rgba(0, 0, 0, 0.1);
-        border-right: 1px solid rgba(255, 255, 255, 0.5);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 8px 0 40px rgba(0, 0, 0, 0.15);
+        /* 移除所有边框，消除割裂感 */
+        border: none;
         z-index: 999;
+        /* 添加动态模糊效果 */
+        animation: glassEffect 8s infinite alternate;
+      }
+
+      /* 动态模糊效果关键帧 */
+      @keyframes glassEffect {
+        0% {
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
+          background: rgba(255, 255, 255, 0.65);
+        }
+        50% {
+          backdrop-filter: blur(35px);
+          -webkit-backdrop-filter: blur(35px);
+          background: rgba(255, 255, 255, 0.75);
+        }
+        100% {
+          backdrop-filter: blur(30px);
+          -webkit-backdrop-filter: blur(30px);
+          background: rgba(255, 255, 255, 0.7);
+        }
       }
 
       .nav-menu.active {
@@ -579,6 +645,9 @@
         border-radius: 12px;
         font-size: 1.1rem;
         letter-spacing: 1px;
+        /* 导航项毛玻璃效果 */
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
       }
 
       /* 轮播图适配 */
@@ -655,6 +724,11 @@
         font-size: 1rem;
         letter-spacing: 0.8px;
       }
+
+      /* 移动端底部文字优化 */
+      footer .container {
+        font-size: 0.8rem;
+      }
     }
 
     /* 小屏手机额外适配 */
@@ -705,10 +779,15 @@
       </button>
       
       <ul class="nav-menu" id="navMenu">
-        <!-- 导航栏改为页面跳转，替换原有锚点为具体页面链接 -->
-        <li><a href="index" class="nav-link active"><i class="fa fa-home"></i> 首页</a></li>
-        <li><a href="download" class="nav-link"><i class="fa fa-download"></i> 工具下载</a></li>
-        <li><a href="kf" class="nav-link"><i class="fa fa-comments"></i> 联系客服</a></li>
+        <!-- 前三个导航链接 - 滚动到对应位置 -->
+        <li><a href="#top" class="nav-link active"><i class="fa fa-home"></i> 首页</a></li>
+        <li><a href="#tools" class="nav-link"><i class="fa fa-download"></i> 工具下载</a></li>
+        <li><a href="#contact" class="nav-link"><i class="fa fa-comments"></i> 联系客服</a></li>
+        
+        <!-- 新增三个导航链接 - 跳转到指定页面 -->
+        <li><a href="wt" class="nav-link"><i class="fa fa-question-circle"></i> 常见问题</a></li>
+        <li><a href="wt" class="nav-link"><i class="fa fa-book"></i> 刷机教程</a></li>
+        <li><a href="tel://17878781391" class="nav-link"><i class="fa fa-info-circle"></i> 电话联系</a></li>
       </ul>
     </div>
   </nav>
@@ -751,8 +830,8 @@
   <main>
     <!-- 欢迎区块 -->
     <section class="welcome-section" id="contact">
-      <h2>欢迎来到Dong的刷机主页</h2>
-      <p>该站点由栋自主研发的刷机，工具，为一体的多功能网站，欢迎您的使用</p>
+      <h2>欢迎来到栋的刷机主页</h2>
+      <p>该站点由栋自主研发的刷机，工具，为一体的官方网站，欢迎您的使用</p>
       
       <h2>查看服务详情</h2>
       <div class="item1" onclick="window.location.href='kf'">
@@ -827,7 +906,8 @@
   <!-- 页脚 -->
   <footer>
     <div class="container">
-      <p>© 2023-2025 栋的刷机服务平台 版权所有,侵权必究</p>
+      <p>© 2023-2025 栋的刷机服务平台</p>
+      <p>版权所有 · 侵权必究</p>
     </div>
   </footer>
 
@@ -841,7 +921,7 @@
       if (typeof cAlert !== 'undefined') {
         cAlert.s(
           '欢迎访问',
-          '欢迎来到我的网站，感谢您对我的信任与支持',
+          '欢迎来到栋的官方网站，感谢您对我的信任与支持',
           { tm: 5000 }
         ).then(function() {
           console.log('弹窗已关闭（2秒关闭动画已完成）');
@@ -860,23 +940,45 @@
         if (navMenu.classList.contains('active')) {
           icon.classList.remove('fa-bars');
           icon.classList.add('fa-times');
+          // 禁止页面滚动
+          document.body.style.overflow = 'hidden';
         } else {
           icon.classList.remove('fa-times');
           icon.classList.add('fa-bars');
+          // 恢复页面滚动
+          document.body.style.overflow = '';
         }
       });
 
-      // 点击导航链接关闭菜单
+      // 点击导航链接关闭菜单并处理滚动或跳转
       navLinks.forEach(link => {
-        link.addEventListener('click', function() {
+        link.addEventListener('click', function(e) {
+          // 关闭菜单
           navMenu.classList.remove('active');
           const icon = menuToggle.querySelector('i');
           icon.classList.remove('fa-times');
           icon.classList.add('fa-bars');
+          document.body.style.overflow = '';
           
           // 激活当前链接
           navLinks.forEach(l => l.classList.remove('active'));
           this.classList.add('active');
+          
+          // 处理锚点滚动
+          const href = this.getAttribute('href');
+          if (href.startsWith('#')) {
+            e.preventDefault();
+            const targetId = href.substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+              // 平滑滚动到目标位置
+              window.scrollTo({
+                top: targetElement.offsetTop - 80, // 偏移量避免被导航栏遮挡
+                behavior: 'smooth'
+              });
+            }
+          }
         });
       });
 
@@ -941,16 +1043,73 @@
           slideInterval = setInterval(nextSlide, 2000);
       });
 
-      // 移除原有平滑滚动（改为页面跳转后无需锚点滚动）
-      // 滚动时导航栏效果保留
+      // 滚动检测变量
+      let lastScrollTop = 0;
+      const delta = 5; // 滚动阈值
+      
+      // 滚动时导航栏效果和元素动画
       window.addEventListener('scroll', function() {
         const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 50) {
+        const scrollTop = window.scrollY;
+        
+        // 导航栏样式变化
+        if (scrollTop > 50) {
           navbar.style.boxShadow = '0 6px 30px rgba(0, 0, 0, 0.12)';
           navbar.style.background = 'rgba(255, 255, 255, 0.25)';
         } else {
           navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.08)';
           navbar.style.background = 'rgba(255, 255, 255, 0.2)';
+        }
+        
+        // 检测滚动方向
+        if (Math.abs(scrollTop - lastScrollTop) <= delta) {
+          return;
+        }
+        
+        // 检测元素可见性并添加/移除动画类
+        checkVisibility(scrollTop > lastScrollTop);
+        
+        // 更新最后滚动位置
+        lastScrollTop = scrollTop;
+      });
+
+      // 元素可见性检测函数（支持双向动画）
+      function checkVisibility(isScrollingDown) {
+        const elements = document.querySelectorAll('section, .btn-container, footer');
+        
+        elements.forEach(element => {
+          const rect = element.getBoundingClientRect();
+          const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+          
+          // 元素进入视口
+          if (rect.top <= windowHeight - 100 && rect.bottom >= 0) {
+            element.classList.add('visible');
+            element.classList.remove('hidden');
+          } 
+          // 元素离开视口（上滑时隐藏）
+          else if (isScrollingDown && rect.bottom < 0) {
+            element.classList.add('hidden');
+            element.classList.remove('visible');
+          } 
+          // 元素离开视口（下滑时隐藏）
+          else if (!isScrollingDown && rect.top > windowHeight) {
+            element.classList.add('hidden');
+            element.classList.remove('visible');
+          }
+        });
+      }
+
+      // 初始加载时触发一次检测
+      setTimeout(() => checkVisibility(true), 100);
+
+      // 点击空白处关闭导航菜单
+      document.addEventListener('click', function(e) {
+        if (!navMenu.contains(e.target) && !menuToggle.contains(e.target) && navMenu.classList.contains('active')) {
+          navMenu.classList.remove('active');
+          const icon = menuToggle.querySelector('i');
+          icon.classList.remove('fa-times');
+          icon.classList.add('fa-bars');
+          document.body.style.overflow = '';
         }
       });
     });
