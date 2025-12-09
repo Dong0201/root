@@ -6,7 +6,7 @@
   <title>栋的刷机服务官方网站</title>
   <!-- 引入Font Awesome图标 -->
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="icon" href="icon.png" type="icon.png">
+  <link rel="icon" href="https://pan.tenire.com/view.php/6003df183ae78b0d14988cb0f130b02f.jpg" type="https://pan.tenire.com/view.php/6003df183ae78b0d14988cb0f130b02f.jpg">
   <style>
     /* 全局样式重置与基础配置 */
     * {
@@ -25,29 +25,27 @@
         radial-gradient(rgba(30, 144, 255, 0.03) 1px, transparent 1px);
       background-size: 20px 20px;
       background-position: 0 0, 10px 10px;
-      /* 全局文字间距优化 */
       letter-spacing: 0.5px;
       line-height: 1.65;
     }
 
-    /* 全局毛玻璃背景层 */
+    /* 全局毛玻璃背景层 - 移动端简化 */
     .glass-bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
       z-index: -1;
       background: rgba(255, 255, 255, 0.1);
     }
 
-    /* 可折叠导航栏 - 毛玻璃效果增强 */
+    /* 可折叠导航栏 - 优化移动端性能 */
     .navbar {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      /* 添加导航栏模糊效果 */
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       color: #1a202c;
       padding: 12px 20px;
       position: sticky;
@@ -55,9 +53,9 @@
       z-index: 1000;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
       border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      /* 防止导航栏与菜单之间出现缝隙 */
       margin: 0;
       border: none;
+      transition: all 0.3s ease; /* 平滑过渡效果 */
     }
 
     .navbar-container {
@@ -75,7 +73,6 @@
       font-weight: 700;
       font-size: 1.3rem;
       color: #1E90FF;
-      /* logo文字间距优化 */
       letter-spacing: 1px;
     }
 
@@ -84,12 +81,10 @@
       color: #1E90FF;
     }
 
-    /* 移动端菜单按钮 - 果冻效果 */
+    /* 移动端菜单按钮 - 简化效果 */
     .menu-toggle {
       display: none;
       background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.6);
       color: #1E90FF;
       font-size: 1.5rem;
@@ -101,12 +96,11 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 15px rgba(30, 144, 255, 0.1);
-      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: transform 0.2s ease;
     }
 
     .menu-toggle:active {
       transform: scale(0.92);
-      box-shadow: 0 2px 8px rgba(30, 144, 255, 0.15);
     }
 
     /* 导航菜单 */
@@ -122,12 +116,9 @@
       padding: 10px 16px;
       border-radius: 12px;
       font-weight: 500;
-      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.25s ease;
       background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       border: 1px solid transparent;
-      /* 导航文字间距 */
       letter-spacing: 0.8px;
     }
 
@@ -148,7 +139,7 @@
       margin-right: 8px;
     }
 
-    /* 轮播图容器 - 毛玻璃+无边框设计 */
+    /* 轮播图容器 - 简化效果 */
     .carousel-container {
       position: relative;
       width: 100%;
@@ -158,8 +149,6 @@
       border-radius: 20px;
       box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
       margin-bottom: 30px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
@@ -167,11 +156,11 @@
     /* 轮播图片容器 */
     .carousel-slides {
       display: flex;
-      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: transform 0.6s ease;
       width: 100%;
     }
     
-    /* 轮播图片样式 - 极致优化 */
+    /* 轮播图片样式 - 优化加载 */
     .carousel-slide {
       min-width: 100%;
       position: relative;
@@ -191,14 +180,12 @@
       transform: scale(1.0);
     }
     
-    /* 轮播控制按钮 - 灵动果冻效果 */
+    /* 轮播控制按钮 */
     .carousel-control {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       background: rgba(255, 255, 255, 0.6);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
       color: #1E90FF;
       border: none;
       width: 60px;
@@ -212,7 +199,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.3s ease;
       opacity: 0;
       visibility: hidden;
     }
@@ -242,7 +229,7 @@
       right: 20px;
     }
     
-    /* 轮播指示器 - 毛玻璃+灵动效果 */
+    /* 轮播指示器 */
     .carousel-indicators {
       position: absolute;
       bottom: 25px;
@@ -260,10 +247,8 @@
       height: 12px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
       cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: all 0.4s ease;
       border: 1px solid rgba(255, 255, 255, 0.6);
     }
     
@@ -279,7 +264,7 @@
       background: rgba(255, 255, 255, 0.7);
     }
 
-    /* 主容器 - 毛玻璃布局 */
+    /* 主容器 */
     main {
       max-width: 1400px;
       margin: 0 auto;
@@ -288,17 +273,15 @@
       z-index: 1;
     }
 
-    /* 通用区块样式 - 高级毛玻璃效果 */
+    /* 通用区块样式 - 简化效果 */
     section {
       margin-bottom: 35px;
       background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 30px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: all 0.6s ease;
       opacity: 0;
       transform: translateY(30px);
     }
@@ -328,7 +311,6 @@
       display: flex;
       align-items: center;
       position: relative;
-      /* 标题文字间距 */
       letter-spacing: 1.2px;
       font-weight: 600;
     }
@@ -352,11 +334,9 @@
       margin-bottom: 20px;
     }
 
-    /* 卡片样式 - 毛玻璃+果冻效果 */
+    /* 卡片样式 - 简化动画 */
     div[class^="item"] {
       background: rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.5);
       border-radius: 16px;
       padding: 25px;
@@ -365,10 +345,10 @@
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
       position: relative;
       overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.3s ease;
     }
 
-    /* 卡片果冻悬停效果 */
+    /* 卡片悬停效果 */
     div[class^="item"]:hover {
       transform: translateY(-6px) scale(1.01);
       box-shadow: 0 15px 35px rgba(30, 144, 255, 0.15);
@@ -389,7 +369,6 @@
       display: flex;
       align-items: center;
       margin-bottom: 10px;
-      /* 卡片标题间距 */
       letter-spacing: 0.8px;
     }
 
@@ -413,7 +392,6 @@
       line-height: 1.7;
       font-size: 1rem;
       margin: 0;
-      /* 卡片描述间距 */
       letter-spacing: 0.6px;
     }
 
@@ -439,7 +417,7 @@
       background: rgba(237, 137, 54, 0.1);
     }
 
-    /* 卡片右侧箭头装饰 - 灵动效果 */
+    /* 卡片右侧箭头装饰 */
     div[class^="item"]::after {
       content: '\f061';
       font-family: 'FontAwesome';
@@ -449,7 +427,7 @@
       transform: translateY(-50%);
       color: rgba(74, 85, 104, 0.2);
       font-size: 1.1rem;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: all 0.4s ease;
     }
 
     div[class^="item"]:hover::after {
@@ -458,7 +436,7 @@
       transform: translateY(-50%) scale(1.3);
     }
 
-    /* 按钮容器 - 毛玻璃布局 */
+    /* 按钮容器 */
     .btn-container {
       max-width: 1400px;
       margin: 0 auto;
@@ -469,7 +447,7 @@
       align-items: center;
       opacity: 0;
       transform: translateY(30px);
-      transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: all 0.6s ease;
     }
 
     .btn-container.visible {
@@ -482,7 +460,7 @@
       transform: translateY(30px);
     }
 
-    /* 按钮样式 - 果冻效果+毛玻璃 */
+    /* 按钮样式 */
     .admin-btn, .ks-btn {
       flex: 1;
       min-width: 280px;
@@ -496,8 +474,6 @@
     .admin-btn button, .ks-btn button {
       width: 100%;
       background: rgba(30, 144, 255, 0.1);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
       color: #1E90FF;
       padding: 18px 30px;
       border: 1px solid rgba(30, 144, 255, 0.3);
@@ -509,8 +485,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      /* 按钮文字间距 */
+      transition: all 0.3s ease;
       letter-spacing: 1px;
     }
 
@@ -524,7 +499,7 @@
       border-color: rgba(66, 133, 244, 0.3);
     }
 
-    /* 按钮果冻效果 */
+    /* 按钮效果 */
     .admin-btn button:hover, .ks-btn button:hover {
       transform: translateY(-5px);
       box-shadow: 0 15px 35px rgba(30, 144, 255, 0.2);
@@ -547,17 +522,15 @@
       font-size: 1.2rem;
     }
 
-    /* 页脚样式 - 毛玻璃效果 */
+    /* 页脚样式 */
     footer {
       background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       padding: 25px 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.05);
       opacity: 0;
       transform: translateY(30px);
-      transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: all 0.6s ease;
     }
 
     footer.visible {
@@ -575,7 +548,6 @@
       margin: 0 auto;
       text-align: center;
       color: #4a5568;
-      /* 优化底部文字排版 */
       font-size: 0.9rem;
       line-height: 1.5;
       letter-spacing: 0.5px;
@@ -583,12 +555,28 @@
 
     footer p {
       margin: 8px 0;
-      /* 缩小行高和间距 */
       line-height: 1.4;
     }
 
-    /* 响应式适配 - 移动端深度优化 */
+    /* 点击粒子效果容器 */
+    .particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 响应式适配 - 移动端优化 */
     @media (max-width: 768px) {
+      /* 移除性能消耗大的效果 */
+      .navbar {
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+      }
+      
       /* 导航栏适配 */
       .menu-toggle {
         display: flex;
@@ -596,43 +584,18 @@
 
       .nav-menu {
         position: fixed;
-        top: 0; /* 修复顶部缝隙 */
+        top: 0;
         left: -100%;
         flex-direction: column;
-        /* 动态模糊毛玻璃背景 */
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
+        background: rgba(255, 255, 255, 0.95);
         width: 85%;
-        height: 100vh; /* 全屏高度 */
+        height: 100vh;
         padding: 80px 30px 30px;
         gap: 15px;
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transition: left 0.4s ease;
         box-shadow: 8px 0 40px rgba(0, 0, 0, 0.15);
-        /* 移除所有边框，消除割裂感 */
         border: none;
         z-index: 999;
-        /* 添加动态模糊效果 */
-        animation: glassEffect 8s infinite alternate;
-      }
-
-      /* 动态模糊效果关键帧 */
-      @keyframes glassEffect {
-        0% {
-          backdrop-filter: blur(25px);
-          -webkit-backdrop-filter: blur(25px);
-          background: rgba(255, 255, 255, 0.65);
-        }
-        50% {
-          backdrop-filter: blur(35px);
-          -webkit-backdrop-filter: blur(35px);
-          background: rgba(255, 255, 255, 0.75);
-        }
-        100% {
-          backdrop-filter: blur(30px);
-          -webkit-backdrop-filter: blur(30px);
-          background: rgba(255, 255, 255, 0.7);
-        }
       }
 
       .nav-menu.active {
@@ -645,9 +608,7 @@
         border-radius: 12px;
         font-size: 1.1rem;
         letter-spacing: 1px;
-        /* 导航项毛玻璃效果 */
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.7);
       }
 
       /* 轮播图适配 */
@@ -661,6 +622,7 @@
       
       .carousel-slide img {
         max-height: 320px;
+        object-fit: cover;
       }
       
       .indicator {
@@ -729,6 +691,17 @@
       footer .container {
         font-size: 0.8rem;
       }
+      
+      /* 简化动画效果 */
+      section, .btn-container, footer {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      
+      /* 禁用滚动时的元素隐藏效果 */
+      section.hidden, .btn-container.hidden, footer.hidden {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* 小屏手机额外适配 */
@@ -763,8 +736,11 @@
   </style>
 </head>
 <body>
-  <!-- 全局毛玻璃背景 -->
+  <!-- 全局背景 -->
   <div class="glass-bg"></div>
+  
+  <!-- 粒子效果容器 -->
+  <div class="particles-container" id="particlesContainer"></div>
 
   <!-- 可折叠导航栏 -->
   <nav class="navbar">
@@ -779,12 +755,9 @@
       </button>
       
       <ul class="nav-menu" id="navMenu">
-        <!-- 前三个导航链接 - 滚动到对应位置 -->
         <li><a href="#top" class="nav-link active"><i class="fa fa-home"></i> 首页</a></li>
         <li><a href="#tools" class="nav-link"><i class="fa fa-download"></i> 工具下载</a></li>
         <li><a href="#contact" class="nav-link"><i class="fa fa-comments"></i> 联系客服</a></li>
-        
-        <!-- 新增三个导航链接 - 跳转到指定页面 -->
         <li><a href="wt" class="nav-link"><i class="fa fa-question-circle"></i> 常见问题</a></li>
         <li><a href="wt" class="nav-link"><i class="fa fa-book"></i> 刷机教程</a></li>
         <li><a href="tel://17878781391" class="nav-link"><i class="fa fa-info-circle"></i> 电话联系</a></li>
@@ -792,31 +765,29 @@
     </div>
   </nav>
 
-  <!-- 轮播图区域 - 直接显示，无多余文字 -->
+  <!-- 轮播图区域 -->
   <div id="top" class="carousel-container">
     <div class="carousel-slides">
       <div class="carousel-slide">
-        <img src="https://pan.tenire.com/view.php/4e0907f80bb40cfa3f856821c0ccde2a.jpg" alt="刷机服务介绍1">
+        <img src="https://pan.tenire.com/view.php/4e0907f80bb40cfa3f856821c0ccde2a.jpg" alt="刷机服务介绍1" loading="lazy">
       </div>
       <div class="carousel-slide">
-        <img src="https://pan.tenire.com/view.php/894e09d164fef01ed6784e027e3fba0e.jpg" alt="刷机服务介绍2">
+        <img src="https://pan.tenire.com/view.php/894e09d164fef01ed6784e027e3fba0e.jpg" alt="刷机服务介绍2" loading="lazy">
       </div>
       <div class="carousel-slide">
-        <img src="https://pan.tenire.com/view.php/3440201db643f5525c743536f813ac72.jpg" alt="刷机服务介绍3">
+        <img src="https://pan.tenire.com/view.php/3440201db643f5525c743536f813ac72.jpg" alt="刷机服务介绍3" loading="lazy">
       </div>
       <div class="carousel-slide">
-        <img src="https://pan.tenire.com/view.php/b33efa6eed0baa39429eab7fffb1712e.jpg" alt="刷机服务介绍4">
+        <img src="https://pan.tenire.com/view.php/b33efa6eed0baa39429eab7fffb1712e.jpg" alt="刷机服务介绍4" loading="lazy">
       </div>
       <div class="carousel-slide">
-        <img src="https://pan.tenire.com/view.php/34d2c52e5b2c2571d7f3914aba1cfed7.jpg" alt="刷机服务介绍5">
+        <img src="https://pan.tenire.com/view.php/34d2c52e5b2c2571d7f3914aba1cfed7.jpg" alt="刷机服务介绍5" loading="lazy">
       </div>
     </div>
     
-    <!-- 轮播控制按钮 - 灵动果冻样式 -->
     <button class="carousel-control prev"><i class="fa fa-angle-left"></i></button>
     <button class="carousel-control next"><i class="fa fa-angle-right"></i></button>
     
-    <!-- 轮播指示器 -->
     <div class="carousel-indicators">
       <span class="indicator active" data-index="0"></span>
       <span class="indicator" data-index="1"></span>
@@ -880,9 +851,8 @@
     </section>
   </main>
 
-  <!-- 按钮容器 - 优化布局 -->
+  <!-- 按钮容器 -->
   <div class="btn-container">
-    <!-- 服务器面板按钮 -->
     <div class="admin-btn">
       <a href="admin" target="_blank">
         <button>
@@ -892,7 +862,6 @@
       </a>
     </div>
 
-    <!-- 快手主页按钮 -->
     <div class="ks-btn">
       <a href="https://v.kuaishou.com/JPPrySdZ" target="_blank">
         <button>
@@ -908,6 +877,7 @@
     <div class="container">
       <p>© 2023-2025 栋的刷机服务平台</p>
       <p>版权所有 · 侵权必究</p>
+      <p>本网站仅供学习与交流，请勿用于非法用途</p>
     </div>
   </footer>
 
@@ -917,16 +887,115 @@
   <!-- 核心功能脚本 -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // 欢迎弹窗
-      if (typeof cAlert !== 'undefined') {
-        cAlert.s(
-          '欢迎访问',
-          '欢迎来到栋的官方网站，感谢您对我的信任与支持',
-          { tm: 5000 }
-        ).then(function() {
-          console.log('弹窗已关闭（2秒关闭动画已完成）');
-        });
+      // 点击粒子效果实现
+      const particlesContainer = document.getElementById('particlesContainer');
+      const isMobile = window.innerWidth <= 768;
+      
+      // 根据设备类型调整粒子数量和大小，优化性能
+      const particleConfig = isMobile ? {
+        count: 5,    // 移动端粒子数量少一些
+        size: 3,     // 粒子小一些
+        speed: 1.5   // 速度慢一些
+      } : {
+        count: 8,    // 桌面端粒子数量多一些
+        size: 5,     // 粒子大一些
+        speed: 2     // 速度快一些
+      };
+
+      // 点击事件处理函数
+      document.addEventListener('click', function(e) {
+        // 为避免过度消耗性能，限制粒子生成频率
+        if (Date.now() - (window.lastParticleTime || 0) < 100) return;
+        window.lastParticleTime = Date.now();
+        
+        const x = e.clientX;
+        const y = e.clientY;
+        
+        // 创建多个粒子
+        for (let i = 0; i < particleConfig.count; i++) {
+          createParticle(x, y);
+        }
+      });
+      
+      // 创建单个粒子
+      function createParticle(x, y) {
+        const particle = document.createElement('div');
+        
+        // 随机颜色，使用主题色相关的颜色
+        const colors = ['#1E90FF', '#4169E1', '#4285f4', '#3367d6', '#38b2ac'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // 设置粒子样式
+        particle.style.cssText = `
+          position: absolute;
+          width: ${Math.random() * particleConfig.size + particleConfig.size}px;
+          height: ${Math.random() * particleConfig.size + particleConfig.size}px;
+          background: ${color};
+          border-radius: 50%;
+          left: ${x}px;
+          top: ${y}px;
+          pointer-events: none;
+          opacity: 0.8;
+          box-shadow: 0 0 10px ${color};
+        `;
+        
+        particlesContainer.appendChild(particle);
+        
+        // 随机方向和距离
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 60 + 40;
+        const endX = x + Math.cos(angle) * distance;
+        const endY = y + Math.sin(angle) * distance;
+        
+        // 动画持续时间
+        const duration = Math.random() * 800 + 600;
+        
+        // 使用requestAnimationFrame实现平滑动画
+        const startTime = Date.now();
+        animateParticle(particle, startTime, x, y, endX, endY, duration);
       }
+      
+      // 粒子动画函数
+      function animateParticle(particle, startTime, startX, startY, endX, endY, duration) {
+        const currentTime = Date.now();
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // 缓动函数，让动画更自然
+        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        
+        // 计算当前位置
+        const currentX = startX + (endX - startX) * easeProgress;
+        const currentY = startY + (endY - startY) * easeProgress;
+        
+        // 更新粒子位置和透明度
+        particle.style.left = `${currentX}px`;
+        particle.style.top = `${currentY}px`;
+        particle.style.opacity = 1 - progress;
+        
+        // 继续动画或清理
+        if (progress < 1) {
+          requestAnimationFrame(() => {
+            animateParticle(particle, startTime, startX, startY, endX, endY, duration);
+          });
+        } else {
+          // 动画结束后移除粒子元素
+          particle.remove();
+        }
+      }
+
+      // 欢迎弹窗 - 延迟显示，避免阻塞
+      setTimeout(() => {
+        if (typeof cAlert !== 'undefined') {
+          cAlert.s(
+            '欢迎访问',
+            '欢迎来到栋的官方网站，感谢您对我的信任与支持',
+            { tm: 5000 }
+          ).then(function() {
+            console.log('弹窗已关闭');
+          });
+        }
+      }, 1000);
 
       // 导航栏折叠功能
       const menuToggle = document.getElementById('menuToggle');
@@ -935,36 +1004,30 @@
 
       menuToggle.addEventListener('click', function() {
         navMenu.classList.toggle('active');
-        // 切换菜单图标
         const icon = menuToggle.querySelector('i');
         if (navMenu.classList.contains('active')) {
           icon.classList.remove('fa-bars');
           icon.classList.add('fa-times');
-          // 禁止页面滚动
           document.body.style.overflow = 'hidden';
         } else {
           icon.classList.remove('fa-times');
           icon.classList.add('fa-bars');
-          // 恢复页面滚动
           document.body.style.overflow = '';
         }
       });
 
-      // 点击导航链接关闭菜单并处理滚动或跳转
+      // 点击导航链接关闭菜单
       navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-          // 关闭菜单
           navMenu.classList.remove('active');
           const icon = menuToggle.querySelector('i');
           icon.classList.remove('fa-times');
           icon.classList.add('fa-bars');
           document.body.style.overflow = '';
           
-          // 激活当前链接
           navLinks.forEach(l => l.classList.remove('active'));
           this.classList.add('active');
           
-          // 处理锚点滚动
           const href = this.getAttribute('href');
           if (href.startsWith('#')) {
             e.preventDefault();
@@ -972,9 +1035,8 @@
             const targetElement = document.getElementById(targetId);
             
             if (targetElement) {
-              // 平滑滚动到目标位置
               window.scrollTo({
-                top: targetElement.offsetTop - 80, // 偏移量避免被导航栏遮挡
+                top: targetElement.offsetTop - 80,
                 behavior: 'smooth'
               });
             }
@@ -982,7 +1044,7 @@
         });
       });
 
-      // 轮播图功能实现
+      // 轮播图功能 - 优化性能
       const slidesContainer = document.querySelector('.carousel-slides');
       const slides = document.querySelectorAll('.carousel-slide');
       const prevBtn = document.querySelector('.prev');
@@ -990,12 +1052,14 @@
       const indicators = document.querySelectorAll('.indicator');
       let currentIndex = 0;
       const slideCount = slides.length;
+      let slideInterval;
       
-      // 更新轮播显示
+      // 限制移动设备轮播速度
+      const slideDelay = isMobile ? 5000 : 3000; // 移动端轮播间隔更长，减少性能消耗
+      
       function updateSlidePosition() {
           slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
           
-          // 更新指示器状态
           indicators.forEach((indicator, index) => {
               if (index === currentIndex) {
                   indicator.classList.add('active');
@@ -1005,23 +1069,19 @@
           });
       }
       
-      // 下一张
       function nextSlide() {
           currentIndex = (currentIndex + 1) % slideCount;
           updateSlidePosition();
       }
       
-      // 上一张
       function prevSlide() {
           currentIndex = (currentIndex - 1 + slideCount) % slideCount;
           updateSlidePosition();
       }
       
-      // 事件监听
       nextBtn.addEventListener('click', nextSlide);
       prevBtn.addEventListener('click', prevSlide);
       
-      // 指示器点击事件
       indicators.forEach(indicator => {
           indicator.addEventListener('click', function() {
               currentIndex = parseInt(this.getAttribute('data-index'));
@@ -1029,78 +1089,83 @@
           });
       });
       
-      // 自动轮播 - 2秒切换
-      let slideInterval = setInterval(nextSlide, 2000);
+      // 启动自动轮播
+      function startSlideInterval() {
+        slideInterval = setInterval(nextSlide, slideDelay);
+      }
       
-      // 鼠标悬停时暂停自动轮播
-      const carouselContainer = document.querySelector('.carousel-container');
-      carouselContainer.addEventListener('mouseenter', () => {
-          clearInterval(slideInterval);
-      });
+      startSlideInterval();
       
-      // 鼠标离开时恢复自动轮播
-      carouselContainer.addEventListener('mouseleave', () => {
-          slideInterval = setInterval(nextSlide, 2000);
-      });
-
-      // 滚动检测变量
-      let lastScrollTop = 0;
-      const delta = 5; // 滚动阈值
-      
-      // 滚动时导航栏效果和元素动画
-      window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
-        const scrollTop = window.scrollY;
+      // 鼠标交互（仅桌面端）
+      if (!isMobile) {
+        const carouselContainer = document.querySelector('.carousel-container');
+        carouselContainer.addEventListener('mouseenter', () => {
+            clearInterval(slideInterval);
+        });
         
-        // 导航栏样式变化
-        if (scrollTop > 50) {
-          navbar.style.boxShadow = '0 6px 30px rgba(0, 0, 0, 0.12)';
-          navbar.style.background = 'rgba(255, 255, 255, 0.25)';
-        } else {
-          navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.08)';
-          navbar.style.background = 'rgba(255, 255, 255, 0.2)';
-        }
-        
-        // 检测滚动方向
-        if (Math.abs(scrollTop - lastScrollTop) <= delta) {
-          return;
-        }
-        
-        // 检测元素可见性并添加/移除动画类
-        checkVisibility(scrollTop > lastScrollTop);
-        
-        // 更新最后滚动位置
-        lastScrollTop = scrollTop;
-      });
-
-      // 元素可见性检测函数（支持双向动画）
-      function checkVisibility(isScrollingDown) {
-        const elements = document.querySelectorAll('section, .btn-container, footer');
-        
-        elements.forEach(element => {
-          const rect = element.getBoundingClientRect();
-          const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-          
-          // 元素进入视口
-          if (rect.top <= windowHeight - 100 && rect.bottom >= 0) {
-            element.classList.add('visible');
-            element.classList.remove('hidden');
-          } 
-          // 元素离开视口（上滑时隐藏）
-          else if (isScrollingDown && rect.bottom < 0) {
-            element.classList.add('hidden');
-            element.classList.remove('visible');
-          } 
-          // 元素离开视口（下滑时隐藏）
-          else if (!isScrollingDown && rect.top > windowHeight) {
-            element.classList.add('hidden');
-            element.classList.remove('visible');
-          }
+        carouselContainer.addEventListener('mouseleave', () => {
+            startSlideInterval();
         });
       }
 
-      // 初始加载时触发一次检测
-      setTimeout(() => checkVisibility(true), 100);
+      // 简化滚动效果 - 仅在桌面端启用
+      if (!isMobile) {
+        let lastScrollTop = 0;
+        const delta = 5;
+        
+        window.addEventListener('scroll', function() {
+          const navbar = document.querySelector('.navbar');
+          const scrollTop = window.scrollY;
+          
+          if (scrollTop > 50) {
+            navbar.style.boxShadow = '0 6px 30px rgba(0, 0, 0, 0.12)';
+            navbar.style.background = 'rgba(255, 255, 255, 0.85)';
+          } else {
+            navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.08)';
+            navbar.style.background = 'rgba(255, 255, 255, 0.7)';
+          }
+          
+          if (Math.abs(scrollTop - lastScrollTop) <= delta) {
+            return;
+          }
+          
+          checkVisibility(scrollTop > lastScrollTop);
+          lastScrollTop = scrollTop;
+        });
+
+        function checkVisibility(isScrollingDown) {
+          const elements = document.querySelectorAll('section, .btn-container, footer');
+          
+          elements.forEach(element => {
+            const rect = element.getBoundingClientRect();
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+            
+            if (rect.top <= windowHeight - 100 && rect.bottom >= 0) {
+              element.classList.add('visible');
+              element.classList.remove('hidden');
+            } else if (isScrollingDown && rect.bottom < 0) {
+              element.classList.add('hidden');
+              element.classList.remove('visible');
+            } else if (!isScrollingDown && rect.top > windowHeight) {
+              element.classList.add('hidden');
+              element.classList.remove('visible');
+            }
+          });
+        }
+      } else {
+        // 移动端直接显示所有元素，不做滚动动画，节省性能
+        document.querySelectorAll('section, .btn-container, footer').forEach(el => {
+          el.classList.add('visible');
+          el.classList.remove('hidden');
+        });
+      }
+
+      // 初始加载
+      setTimeout(() => {
+        if (!isMobile) {
+          checkVisibility(true);
+        }
+      }, 100);
 
       // 点击空白处关闭导航菜单
       document.addEventListener('click', function(e) {
@@ -1115,9 +1180,9 @@
     });
   </script>
 
-  <!-- 原有脚本 -->
-  <script type="text/javascript" src="https://myhkw.cn/player/js/jquery.min.js"></script>
-  <script type="text/javascript" id="myhk" src="https://myhkw.cn/api/player/1764650780108" key="1764650780108" m="1"></script>
+  <!-- 优化脚本加载 -->
+  <script type="text/javascript" src="https://myhkw.cn/player/js/jquery.min.js" defer></script>
+  <script type="text/javascript" id="myhk" src="https://myhkw.cn/api/player/1764650780108" key="1764650780108" m="1" defer></script>
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"8b717e60261641248e9738dd8195d250","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
   <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7f17cd1df2aef8',t:'MTc2NDcyMzI2OA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
