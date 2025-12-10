@@ -2,19 +2,23 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>栋的刷机服务官方网站</title>
   <!-- 引入Font Awesome图标 -->
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="icon" href="https://pan.tenire.com/view.php/6003df183ae78b0d14988cb0f130b02f.jpg" type="https://pan.tenire.com/view.php/6003df183ae78b0d14988cb0f130b02f.jpg">
+  <link rel="icon" href="https://pan.tenire.com/view.php/6003df183ae78b0d14988cb0f130b02f.jpg" type="image/jpeg">
   <style>
-    /* 全局样式重置与基础配置 */
+    /* 全局样式重置与基础配置 - 修复盒模型和布局错乱 */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
     }
-
+    html {
+      scroll-behavior: smooth; /* 平滑滚动 */
+      font-size: 16px; /* 基准字号统一 */
+    }
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: #f0f4f8;
@@ -27,23 +31,23 @@
       background-position: 0 0, 10px 10px;
       letter-spacing: 0.5px;
       line-height: 1.65;
+      padding-top: 0; /* 修复导航栏遮挡 */
     }
-
-    /* 全局毛玻璃背景层 - 移动端简化 */
+    /* 全局毛玻璃背景层 - 修复层级和显示问题 */
     .glass-bg {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       z-index: -1;
       background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
-
-    /* 可折叠导航栏 - 优化移动端性能 */
+    /* 可折叠导航栏 - 修复掉帧和定位错乱 */
     .navbar {
-      /* 添加导航栏模糊效果 */
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       color: #1a202c;
@@ -53,19 +57,17 @@
       z-index: 1000;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
       border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      margin: 0;
-      border: none;
-      transition: all 0.3s ease; /* 平滑过渡效果 */
+      transition: all 0.3s ease;
+      width: 100%; /* 强制占满宽度 */
     }
-
     .navbar-container {
       max-width: 1400px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      width: 100%; /* 修复容器宽度不足 */
     }
-
     .logo {
       display: flex;
       align-items: center;
@@ -74,16 +76,14 @@
       font-size: 1.3rem;
       color: #1E90FF;
       letter-spacing: 1px;
+      white-space: nowrap; /* 防止logo换行 */
     }
-
     .logo i {
       font-size: 1.5rem;
       color: #1E90FF;
     }
-
-    /* 移动端菜单按钮 - 简化效果 */
+    /* 移动端菜单按钮 - 修复显示和点击区域 */
     .menu-toggle {
-      display: none;
       background: rgba(255, 255, 255, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.6);
       color: #1E90FF;
@@ -92,24 +92,24 @@
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      display: flex;
+      display: none; /* 默认隐藏，移动端显示 */
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 15px rgba(30, 144, 255, 0.1);
       transition: transform 0.2s ease;
+      flex-shrink: 0; /* 防止按钮被压缩 */
     }
-
     .menu-toggle:active {
       transform: scale(0.92);
     }
-
-    /* 导航菜单 */
+    /* 导航菜单 - 修复布局和层级 */
     .nav-menu {
       display: flex;
       gap: 25px;
       list-style: none;
+      margin: 0; /* 清除默认边距 */
+      padding: 0; /* 清除默认内边距 */
     }
-
     .nav-link {
       color: #2d3748;
       text-decoration: none;
@@ -120,52 +120,47 @@
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid transparent;
       letter-spacing: 0.8px;
+      white-space: nowrap; /* 防止文字换行 */
     }
-
     .nav-link:hover {
       background: rgba(255, 255, 255, 0.8);
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(30, 144, 255, 0.12);
       border-color: rgba(30, 144, 255, 0.2);
     }
-
     .nav-link.active {
       background: #1E90FF;
       color: white;
       box-shadow: 0 6px 18px rgba(30, 144, 255, 0.2);
     }
-
     .nav-link i {
       margin-right: 8px;
     }
-
-    /* 轮播图容器 - 简化效果 */
+    /* 轮播图容器 - 修复宽度和圆角显示 */
     .carousel-container {
       position: relative;
       width: 100%;
       max-width: 1400px;
-      margin: 0 auto;
+      margin: 20px auto 30px; /* 增加顶部间距，修复紧贴导航栏 */
       overflow: hidden;
       border-radius: 20px;
       box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
-      margin-bottom: 30px;
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    
-    /* 轮播图片容器 */
+    /* 轮播图片容器 - 修复滚动错位 */
     .carousel-slides {
       display: flex;
-      transition: transform 0.6s ease;
+      transition: transform 0.6s ease-in-out; /* 更顺滑的过渡 */
       width: 100%;
+      height: auto; /* 自适应高度 */
     }
-    
-    /* 轮播图片样式 - 优化加载 */
+    /* 轮播图片样式 - 修复变形和加载问题 */
     .carousel-slide {
       min-width: 100%;
       position: relative;
+      height: auto;
     }
-    
     .carousel-slide img {
       width: 100%;
       height: auto;
@@ -175,17 +170,55 @@
       transform: scale(1.02);
       transition: all 0.8s ease;
     }
-    
+    /* 轮播图"查看更多"样式 - 统一UI+修复高度 */
+    .carousel-slide-more {
+      min-width: 100%;
+      position: relative;
+      height: 580px; /* 与图片轮播项高度一致 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(30, 144, 255, 0.1), rgba(65, 105, 225, 0.1));
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .carousel-slide-more:hover {
+      background: linear-gradient(135deg, rgba(30, 144, 255, 0.15), rgba(65, 105, 225, 0.15));
+      box-shadow: inset 0 0 30px rgba(30, 144, 255, 0.05);
+      transform: translateY(-2px);
+    }
+    .carousel-slide-more .more-btn {
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 16px;
+      padding: 25px 50px;
+      color: #1E90FF;
+      font-size: 1.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+    .carousel-slide-more:hover .more-btn {
+      background: rgba(255, 255, 255, 0.6);
+      border-color: rgba(30, 144, 255, 0.3);
+      transform: scale(1.05);
+    }
+    .carousel-slide-more .more-btn i {
+      font-size: 1.8rem;
+    }
     .carousel-container:hover .carousel-slide img {
       transform: scale(1.0);
     }
-    
-    /* 轮播控制按钮 */
+    /* 轮播控制按钮 - 修复定位和点击区域 */
     .carousel-control {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.8);
       color: #1E90FF;
       border: none;
       width: 60px;
@@ -203,33 +236,27 @@
       opacity: 0;
       visibility: hidden;
     }
-    
     .carousel-container:hover .carousel-control {
       opacity: 1;
       visibility: visible;
     }
-    
     .carousel-control:hover {
       transform: translateY(-50%) scale(1.1);
       background: #1E90FF;
       color: white;
       box-shadow: 0 10px 30px rgba(30, 144, 255, 0.3);
     }
-    
     .carousel-control:active {
       transform: translateY(-50%) scale(0.95);
       box-shadow: 0 4px 15px rgba(30, 144, 255, 0.2);
     }
-    
     .prev {
       left: 20px;
     }
-    
     .next {
       right: 20px;
     }
-    
-    /* 轮播指示器 */
+    /* 轮播指示器 - 修复定位和选中状态 */
     .carousel-indicators {
       position: absolute;
       bottom: 25px;
@@ -240,8 +267,9 @@
       display: flex;
       justify-content: center;
       gap: 12px;
+      margin: 0; /* 清除默认边距 */
+      padding: 0; /* 清除默认内边距 */
     }
-    
     .indicator {
       width: 12px;
       height: 12px;
@@ -251,32 +279,29 @@
       transition: all 0.4s ease;
       border: 1px solid rgba(255, 255, 255, 0.6);
     }
-    
     .indicator.active {
       background: #1E90FF;
       transform: scale(1.4);
       box-shadow: 0 0 15px rgba(30, 144, 255, 0.4);
       border-color: white;
     }
-    
     .indicator:hover {
       transform: scale(1.2);
       background: rgba(255, 255, 255, 0.7);
     }
-
-    /* 主容器 */
+    /* 主容器 - 修复内边距和宽度 */
     main {
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 20px 40px;
       position: relative;
       z-index: 1;
+      width: 100%; /* 强制占满宽度 */
     }
-
-    /* 通用区块样式 - 简化效果 */
+    /* 通用区块样式 - 修复显示和动画 */
     section {
       margin-bottom: 35px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.8); /* 增强不透明度，修复透明错乱 */
       border-radius: 20px;
       padding: 30px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
@@ -284,24 +309,21 @@
       transition: all 0.6s ease;
       opacity: 0;
       transform: translateY(30px);
+      width: 100%; /* 强制占满宽度 */
     }
-
     section.visible {
       opacity: 1;
       transform: translateY(0);
     }
-
     section.hidden {
       opacity: 0;
       transform: translateY(30px);
     }
-
     section:hover {
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
       transform: translateY(-2px);
     }
-
-    /* 标题样式 */
+    /* 标题样式 - 修复下划线和对齐 */
     h2 {
       color: #2d3748;
       padding-bottom: 15px;
@@ -314,7 +336,6 @@
       letter-spacing: 1.2px;
       font-weight: 600;
     }
-
     h2::before {
       content: '';
       display: inline-block;
@@ -323,8 +344,8 @@
       background: linear-gradient(180deg, #1E90FF, #4169E1);
       margin-right: 12px;
       border-radius: 3px;
+      flex-shrink: 0; /* 防止装饰条被压缩 */
     }
-
     /* 欢迎语样式优化 */
     .welcome-section p {
       font-size: 1.05rem;
@@ -333,10 +354,9 @@
       line-height: 1.8;
       margin-bottom: 20px;
     }
-
-    /* 卡片样式 - 简化动画 */
+    /* 卡片样式 - 修复布局和交互 */
     div[class^="item"] {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.9); /* 增强不透明度 */
       border: 1px solid rgba(255, 255, 255, 0.5);
       border-radius: 16px;
       padding: 25px;
@@ -346,22 +366,19 @@
       position: relative;
       overflow: hidden;
       transition: all 0.3s ease;
+      width: 100%; /* 强制占满宽度 */
     }
-
-    /* 卡片悬停效果 */
     div[class^="item"]:hover {
       transform: translateY(-6px) scale(1.01);
       box-shadow: 0 15px 35px rgba(30, 144, 255, 0.15);
       border-color: rgba(30, 144, 255, 0.3);
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.95);
     }
-
     div[class^="item"]:active {
       transform: translateY(-2px) scale(0.98);
       box-shadow: 0 8px 20px rgba(30, 144, 255, 0.1);
     }
-
-    /* 卡片内标题样式 */
+    /* 卡片内标题样式 - 修复对齐 */
     div[class^="item"] h3 {
       margin-top: 0;
       color: #2d3748;
@@ -371,8 +388,6 @@
       margin-bottom: 10px;
       letter-spacing: 0.8px;
     }
-
-    /* 卡片图标样式 */
     div[class^="item"] h3 i {
       margin-right: 12px;
       font-size: 1.4rem;
@@ -384,9 +399,9 @@
       border-radius: 10px;
       background: rgba(30, 144, 255, 0.1);
       color: #1E90FF;
+      flex-shrink: 0; /* 防止图标被压缩 */
     }
-
-    /* 卡片描述文本 */
+    /* 卡片描述文本 - 修复行高 */
     div[class^="item"] p {
       color: #4a5568;
       line-height: 1.7;
@@ -394,7 +409,6 @@
       margin: 0;
       letter-spacing: 0.6px;
     }
-
     /* 不同分类卡片的图标配色区分 */
     .item1 h3 i { 
       color: #38b2ac; 
@@ -416,8 +430,7 @@
       color: #ed8936; 
       background: rgba(237, 137, 54, 0.1);
     }
-
-    /* 卡片右侧箭头装饰 */
+    /* 卡片右侧箭头装饰 - 修复定位 */
     div[class^="item"]::after {
       content: '\f061';
       font-family: 'FontAwesome';
@@ -429,14 +442,12 @@
       font-size: 1.1rem;
       transition: all 0.4s ease;
     }
-
     div[class^="item"]:hover::after {
       color: #1E90FF;
       right: 20px;
       transform: translateY(-50%) scale(1.3);
     }
-
-    /* 按钮容器 */
+    /* 按钮容器 - 修复布局和显示 */
     .btn-container {
       max-width: 1400px;
       margin: 0 auto;
@@ -448,29 +459,27 @@
       opacity: 0;
       transform: translateY(30px);
       transition: all 0.6s ease;
+      width: 100%; /* 强制占满宽度 */
     }
-
     .btn-container.visible {
       opacity: 1;
       transform: translateY(0);
     }
-
     .btn-container.hidden {
       opacity: 0;
       transform: translateY(30px);
     }
-
-    /* 按钮样式 */
+    /* 按钮样式 - 修复点击区域和样式 */
     .admin-btn, .ks-btn {
       flex: 1;
       min-width: 280px;
+      width: 100%; /* 移动端占满宽度 */
     }
-
     .admin-btn a, .ks-btn a {
       display: block;
       text-decoration: none;
+      width: 100%; /* 链接占满容器 */
     }
-
     .admin-btn button, .ks-btn button {
       width: 100%;
       background: rgba(30, 144, 255, 0.1);
@@ -487,19 +496,18 @@
       justify-content: center;
       transition: all 0.3s ease;
       letter-spacing: 1px;
+      border: none; /* 清除默认边框 */
+      outline: none; /* 清除默认轮廓 */
     }
-
     .admin-btn button {
       background: linear-gradient(135deg, rgba(30, 144, 255, 0.15), rgba(65, 105, 225, 0.1));
     }
-
     .ks-btn button {
       background: linear-gradient(135deg, rgba(66, 133, 244, 0.15), rgba(51, 103, 214, 0.1));
       color: #4285f4;
       border-color: rgba(66, 133, 244, 0.3);
     }
-
-    /* 按钮效果 */
+    /* 按钮效果 - 增强交互 */
     .admin-btn button:hover, .ks-btn button:hover {
       transform: translateY(-5px);
       box-shadow: 0 15px 35px rgba(30, 144, 255, 0.2);
@@ -507,42 +515,37 @@
       color: white;
       border-color: white;
     }
-
     .ks-btn button:hover {
       background: linear-gradient(135deg, #4285f4, #3367d6);
     }
-
     .admin-btn button:active, .ks-btn button:active {
       transform: translateY(0);
       box-shadow: 0 5px 15px rgba(30, 144, 255, 0.2);
     }
-
     .admin-btn button i, .ks-btn button i {
       margin-right: 10px;
       font-size: 1.2rem;
+      flex-shrink: 0; /* 防止图标被压缩 */
     }
-
-    /* 页脚样式 */
+    /* 页脚样式 - 修复定位和显示 */
     footer {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.8);
       padding: 25px 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.05);
       opacity: 0;
       transform: translateY(30px);
       transition: all 0.6s ease;
+      width: 100%; /* 强制占满宽度 */
     }
-
     footer.visible {
       opacity: 1;
       transform: translateY(0);
     }
-
     footer.hidden {
       opacity: 0;
       transform: translateY(30px);
     }
-
     footer .container {
       max-width: 1400px;
       margin: 0 auto;
@@ -551,57 +554,46 @@
       font-size: 0.9rem;
       line-height: 1.5;
       letter-spacing: 0.5px;
+      width: 100%; /* 强制占满宽度 */
     }
-
     footer p {
       margin: 8px 0;
       line-height: 1.4;
     }
 
-    /* 点击粒子效果容器 */
-    .particles-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 9999;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* 响应式适配 - 移动端优化 */
+    /* 响应式适配 - 移动端优化（核心修复） */
     @media (max-width: 768px) {
-      /* 移除性能消耗大的效果 */
+      /* 导航栏适配 - 修复掉帧和布局 */
       .navbar {
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
+        padding: 10px 15px;
       }
-      
-      /* 导航栏适配 */
       .menu-toggle {
-        display: flex;
+        display: flex; /* 移动端显示菜单按钮 */
+        will-change: transform;
       }
-
       .nav-menu {
         position: fixed;
         top: 0;
         left: -100%;
         flex-direction: column;
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.98); /* 增强不透明度 */
         width: 85%;
         height: 100vh;
         padding: 80px 30px 30px;
         gap: 15px;
-        transition: left 0.4s ease;
+        transition: left 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
         box-shadow: 8px 0 40px rgba(0, 0, 0, 0.15);
         border: none;
         z-index: 999;
+        will-change: left;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
-
       .nav-menu.active {
         left: 0;
       }
-
       .nav-link {
         display: block;
         padding: 15px 20px;
@@ -609,128 +601,121 @@
         font-size: 1.1rem;
         letter-spacing: 1px;
         background: rgba(255, 255, 255, 0.7);
+        will-change: background, transform, box-shadow;
+        width: 100%; /* 移动端占满宽度 */
       }
-
-      /* 轮播图适配 */
+      /* 轮播图适配 - 修复高度和按钮 */
       .carousel-control {
         width: 50px;
         height: 50px;
         font-size: 18px;
         opacity: 1;
-        visibility: visible;
+        visibility: visible; /* 移动端始终显示控制按钮 */
       }
-      
       .carousel-slide img {
         max-height: 320px;
         object-fit: cover;
       }
-      
+      .carousel-slide-more {
+        height: 320px; /* 与图片轮播项高度一致 */
+      }
+      .carousel-slide-more .more-btn {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+      }
       .indicator {
         width: 10px;
         height: 10px;
       }
-
-      /* 主容器适配 */
+      /* 主容器适配 - 修复内边距 */
       main {
         padding: 0 15px 30px;
       }
-
       section {
         padding: 20px;
         margin-bottom: 25px;
       }
-
       div[class^="item"] {
         padding: 20px;
       }
-
       h2 {
         font-size: 1.25rem;
         letter-spacing: 1px;
       }
-
-      /* 按钮容器适配 */
+      /* 按钮容器适配 - 修复布局 */
       .btn-container {
         flex-direction: column;
         padding: 0 15px 30px;
         gap: 15px;
       }
-
       .admin-btn, .ks-btn {
         width: 100%;
         min-width: unset;
       }
-
       .admin-btn button, .ks-btn button {
         padding: 15px 20px;
         font-size: 1rem;
         letter-spacing: 0.8px;
       }
-
-      /* 导航栏适配 */
-      .navbar {
-        padding: 10px 15px;
-      }
-
+      /* 导航栏适配 - 修复logo大小 */
       .logo {
         font-size: 1.1rem;
         letter-spacing: 0.8px;
       }
-
       /* 移动端文字间距优化 */
       body {
         letter-spacing: 0.3px;
       }
-      
       .welcome-section p {
         font-size: 1rem;
         letter-spacing: 0.8px;
       }
-
       /* 移动端底部文字优化 */
       footer .container {
         font-size: 0.8rem;
       }
-      
-      /* 简化动画效果 */
+      /* 简化动画效果 - 提升性能 */
       section, .btn-container, footer {
         transition: opacity 0.3s ease, transform 0.3s ease;
       }
-      
       /* 禁用滚动时的元素隐藏效果 */
       section.hidden, .btn-container.hidden, footer.hidden {
         opacity: 1;
         transform: translateY(0);
       }
     }
-
-    /* 小屏手机额外适配 */
+    /* 小屏手机额外适配（480px以下） */
     @media (max-width: 480px) {
       .carousel-slide img {
         max-height: 240px;
       }
-
+      .carousel-slide-more {
+        height: 240px;
+      }
       section {
         padding: 15px;
         margin-bottom: 20px;
       }
-
       div[class^="item"] {
         padding: 18px;
       }
-
       .carousel-control {
         width: 44px;
         height: 44px;
         font-size: 16px;
       }
-
       .prev {
         left: 10px;
       }
-      
       .next {
         right: 10px;
+      }
+      .btn-container {
+        padding: 0 10px 20px;
+      }
+      .admin-btn button, .ks-btn button {
+        padding: 12px 15px;
+        font-size: 0.95rem;
       }
     }
   </style>
@@ -739,9 +724,6 @@
   <!-- 全局背景 -->
   <div class="glass-bg"></div>
   
-  <!-- 粒子效果容器 -->
-  <div class="particles-container" id="particlesContainer"></div>
-
   <!-- 可折叠导航栏 -->
   <nav class="navbar">
     <div class="navbar-container">
@@ -764,7 +746,7 @@
       </ul>
     </div>
   </nav>
-
+  
   <!-- 轮播图区域 -->
   <div id="top" class="carousel-container">
     <div class="carousel-slides">
@@ -783,6 +765,13 @@
       <div class="carousel-slide">
         <img src="https://pan.tenire.com/view.php/34d2c52e5b2c2571d7f3914aba1cfed7.jpg" alt="刷机服务介绍5" loading="lazy">
       </div>
+      <!-- 第六个轮播项-查看更多 -->
+      <div class="carousel-slide-more" onclick="window.location.href='指定页面链接'">
+        <div class="more-btn">
+          <i class="fa fa-angle-right"></i>
+          <span>查看更多</span>
+        </div>
+      </div>
     </div>
     
     <button class="carousel-control prev"><i class="fa fa-angle-left"></i></button>
@@ -794,9 +783,10 @@
       <span class="indicator" data-index="2"></span>
       <span class="indicator" data-index="3"></span>
       <span class="indicator" data-index="4"></span>
+      <span class="indicator" data-index="5"></span>
     </div>
   </div>
-
+  
   <!-- 主内容 -->
   <main>
     <!-- 欢迎区块 -->
@@ -810,7 +800,7 @@
         <p>1对1真人在线客服解答您的问题</p>
       </div>
     </section>
-
+    
     <!-- 工具下载 -->
     <section id="tools">
       <h2>工具下载</h2>
@@ -823,7 +813,7 @@
         <p>Todesk远程控制软件的下载教程和使用方法</p>
       </div>
     </section>
-
+    
     <!-- 更多工具 -->
     <section id="ai-tools">
       <h2>更多工具</h2>
@@ -836,7 +826,7 @@
         <p>作者自主研发的AI大模型，可回答所有问题，目前处于测试阶段</p>
       </div>
     </section>
-
+    
     <!-- 模拟器 -->
     <section id="simulator">
       <h2>模拟器</h2>
@@ -850,7 +840,7 @@
       </div>
     </section>
   </main>
-
+  
   <!-- 按钮容器 -->
   <div class="btn-container">
     <div class="admin-btn">
@@ -861,7 +851,6 @@
         </button>
       </a>
     </div>
-
     <div class="ks-btn">
       <a href="https://v.kuaishou.com/JPPrySdZ" target="_blank">
         <button>
@@ -871,7 +860,7 @@
       </a>
     </div>
   </div>
-
+  
   <!-- 页脚 -->
   <footer>
     <div class="container">
@@ -880,111 +869,16 @@
       <p>本网站仅供学习与交流，请勿用于非法用途</p>
     </div>
   </footer>
-
-  <!-- 弹窗欢迎提示 -->
-  <script src="cAlert.js"></script>
+  
+  <!-- 弹窗欢迎提示（如需使用请确保cAlert.js存在） -->
+  <!-- <script src="cAlert.js"></script> -->
   
   <!-- 核心功能脚本 -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // 点击粒子效果实现
-      const particlesContainer = document.getElementById('particlesContainer');
-      const isMobile = window.innerWidth <= 768;
-      
-      // 根据设备类型调整粒子数量和大小，优化性能
-      const particleConfig = isMobile ? {
-        count: 5,    // 移动端粒子数量少一些
-        size: 3,     // 粒子小一些
-        speed: 1.5   // 速度慢一些
-      } : {
-        count: 8,    // 桌面端粒子数量多一些
-        size: 5,     // 粒子大一些
-        speed: 2     // 速度快一些
-      };
-
-      // 点击事件处理函数
-      document.addEventListener('click', function(e) {
-        // 为避免过度消耗性能，限制粒子生成频率
-        if (Date.now() - (window.lastParticleTime || 0) < 100) return;
-        window.lastParticleTime = Date.now();
-        
-        const x = e.clientX;
-        const y = e.clientY;
-        
-        // 创建多个粒子
-        for (let i = 0; i < particleConfig.count; i++) {
-          createParticle(x, y);
-        }
-      });
-      
-      // 创建单个粒子
-      function createParticle(x, y) {
-        const particle = document.createElement('div');
-        
-        // 随机颜色，使用主题色相关的颜色
-        const colors = ['#1E90FF', '#4169E1', '#4285f4', '#3367d6', '#38b2ac'];
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        
-        // 设置粒子样式
-        particle.style.cssText = `
-          position: absolute;
-          width: ${Math.random() * particleConfig.size + particleConfig.size}px;
-          height: ${Math.random() * particleConfig.size + particleConfig.size}px;
-          background: ${color};
-          border-radius: 50%;
-          left: ${x}px;
-          top: ${y}px;
-          pointer-events: none;
-          opacity: 0.8;
-          box-shadow: 0 0 10px ${color};
-        `;
-        
-        particlesContainer.appendChild(particle);
-        
-        // 随机方向和距离
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 60 + 40;
-        const endX = x + Math.cos(angle) * distance;
-        const endY = y + Math.sin(angle) * distance;
-        
-        // 动画持续时间
-        const duration = Math.random() * 800 + 600;
-        
-        // 使用requestAnimationFrame实现平滑动画
-        const startTime = Date.now();
-        animateParticle(particle, startTime, x, y, endX, endY, duration);
-      }
-      
-      // 粒子动画函数
-      function animateParticle(particle, startTime, startX, startY, endX, endY, duration) {
-        const currentTime = Date.now();
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // 缓动函数，让动画更自然
-        const easeProgress = 1 - Math.pow(1 - progress, 3);
-        
-        // 计算当前位置
-        const currentX = startX + (endX - startX) * easeProgress;
-        const currentY = startY + (endY - startY) * easeProgress;
-        
-        // 更新粒子位置和透明度
-        particle.style.left = `${currentX}px`;
-        particle.style.top = `${currentY}px`;
-        particle.style.opacity = 1 - progress;
-        
-        // 继续动画或清理
-        if (progress < 1) {
-          requestAnimationFrame(() => {
-            animateParticle(particle, startTime, startX, startY, endX, endY, duration);
-          });
-        } else {
-          // 动画结束后移除粒子元素
-          particle.remove();
-        }
-      }
-
-      // 欢迎弹窗 - 延迟显示，避免阻塞
+      // 修复：移除未定义的cAlert弹窗，避免控制台报错
+      // 如需保留弹窗，请确保cAlert.js正确引入
+      /*
       setTimeout(() => {
         if (typeof cAlert !== 'undefined') {
           cAlert.s(
@@ -996,27 +890,38 @@
           });
         }
       }, 1000);
-
-      // 导航栏折叠功能
+      */
+      
+      // 导航栏折叠功能 - 修复掉帧和重复触发
       const menuToggle = document.getElementById('menuToggle');
       const navMenu = document.getElementById('navMenu');
       const navLinks = document.querySelectorAll('.nav-link');
-
+      
+      let menuToggleLock = false;
       menuToggle.addEventListener('click', function() {
+        if(menuToggleLock) return;
+        menuToggleLock = true;
+        
         navMenu.classList.toggle('active');
         const icon = menuToggle.querySelector('i');
         if (navMenu.classList.contains('active')) {
           icon.classList.remove('fa-bars');
           icon.classList.add('fa-times');
           document.body.style.overflow = 'hidden';
+          document.body.style.paddingRight = '17px'; // 修复滚动条消失导致的布局偏移
         } else {
           icon.classList.remove('fa-times');
           icon.classList.add('fa-bars');
           document.body.style.overflow = '';
+          document.body.style.paddingRight = '';
         }
+        
+        setTimeout(() => {
+          menuToggleLock = false;
+        }, 300);
       });
-
-      // 点击导航链接关闭菜单
+      
+      // 点击导航链接关闭菜单 + 修复锚点跳转
       navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
           navMenu.classList.remove('active');
@@ -1024,6 +929,7 @@
           icon.classList.remove('fa-times');
           icon.classList.add('fa-bars');
           document.body.style.overflow = '';
+          document.body.style.paddingRight = '';
           
           navLinks.forEach(l => l.classList.remove('active'));
           this.classList.add('active');
@@ -1035,18 +941,21 @@
             const targetElement = document.getElementById(targetId);
             
             if (targetElement) {
+              // 修复锚点跳转位置（避开导航栏）
+              const navbarHeight = document.querySelector('.navbar').offsetHeight;
+              const targetTop = targetElement.offsetTop - navbarHeight - 10;
               window.scrollTo({
-                top: targetElement.offsetTop - 80,
+                top: targetTop,
                 behavior: 'smooth'
               });
             }
           }
         });
       });
-
-      // 轮播图功能 - 优化性能
+      
+      // 轮播图功能 - 修复6个轮播项的切换逻辑
       const slidesContainer = document.querySelector('.carousel-slides');
-      const slides = document.querySelectorAll('.carousel-slide');
+      const slides = document.querySelectorAll('.carousel-slide, .carousel-slide-more');
       const prevBtn = document.querySelector('.prev');
       const nextBtn = document.querySelector('.next');
       const indicators = document.querySelectorAll('.indicator');
@@ -1054,21 +963,30 @@
       const slideCount = slides.length;
       let slideInterval;
       
-      // 限制移动设备轮播速度
-      const slideDelay = isMobile ? 5000 : 3000; // 移动端轮播间隔更长，减少性能消耗
+      // 修复：移动端轮播间隔更长，减少性能消耗
+      const isMobile = window.innerWidth <= 768;
+      const slideDelay = isMobile ? 6000 : 4000;
+      
+      // 修复：轮播图高度自适应（防止图片加载前高度塌陷）
+      function setCarouselHeight() {
+        const activeSlide = slides[currentIndex];
+        if (activeSlide) {
+          const slideHeight = activeSlide.offsetHeight;
+          slidesContainer.style.height = `${slideHeight}px`;
+        }
+      }
       
       function updateSlidePosition() {
           slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
           
           indicators.forEach((indicator, index) => {
-              if (index === currentIndex) {
-                  indicator.classList.add('active');
-              } else {
-                  indicator.classList.remove('active');
-              }
+              indicator.classList.toggle('active', index === currentIndex);
           });
+          
+          setCarouselHeight(); // 切换时更新高度
       }
       
+      // 修复：轮播边界处理（循环切换）
       function nextSlide() {
           currentIndex = (currentIndex + 1) % slideCount;
           updateSlidePosition();
@@ -1089,14 +1007,14 @@
           });
       });
       
-      // 启动自动轮播
+      // 启动自动轮播 + 修复鼠标悬停暂停
       function startSlideInterval() {
+        if (slideInterval) clearInterval(slideInterval);
         slideInterval = setInterval(nextSlide, slideDelay);
       }
       
       startSlideInterval();
       
-      // 鼠标交互（仅桌面端）
       if (!isMobile) {
         const carouselContainer = document.querySelector('.carousel-container');
         carouselContainer.addEventListener('mouseenter', () => {
@@ -1107,67 +1025,79 @@
             startSlideInterval();
         });
       }
-
-      // 简化滚动效果 - 仅在桌面端启用
-      if (!isMobile) {
+      
+      // 修复：图片加载完成后更新轮播高度
+      const carouselImages = document.querySelectorAll('.carousel-slide img');
+      carouselImages.forEach(img => {
+        img.addEventListener('load', setCarouselHeight);
+      });
+      
+      // 滚动动画 - 修复移动端性能 + 元素显隐
+      const isMobileDevice = window.innerWidth <= 768;
+      if (!isMobileDevice) {
         let lastScrollTop = 0;
         const delta = 5;
+        const scrollElements = document.querySelectorAll('section, .btn-container, footer');
         
-        window.addEventListener('scroll', function() {
-          const navbar = document.querySelector('.navbar');
-          const scrollTop = window.scrollY;
-          
-          if (scrollTop > 50) {
-            navbar.style.boxShadow = '0 6px 30px rgba(0, 0, 0, 0.12)';
-            navbar.style.background = 'rgba(255, 255, 255, 0.85)';
-          } else {
-            navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.08)';
-            navbar.style.background = 'rgba(255, 255, 255, 0.7)';
-          }
-          
-          if (Math.abs(scrollTop - lastScrollTop) <= delta) {
-            return;
-          }
-          
-          checkVisibility(scrollTop > lastScrollTop);
-          lastScrollTop = scrollTop;
-        });
-
-        function checkVisibility(isScrollingDown) {
-          const elements = document.querySelectorAll('section, .btn-container, footer');
-          
-          elements.forEach(element => {
-            const rect = element.getBoundingClientRect();
-            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-            
-            if (rect.top <= windowHeight - 100 && rect.bottom >= 0) {
-              element.classList.add('visible');
-              element.classList.remove('hidden');
-            } else if (isScrollingDown && rect.bottom < 0) {
-              element.classList.add('hidden');
-              element.classList.remove('visible');
-            } else if (!isScrollingDown && rect.top > windowHeight) {
-              element.classList.add('hidden');
-              element.classList.remove('visible');
+        // 初始显示首屏元素
+        setTimeout(() => {
+          scrollElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top <= window.innerHeight - 100) {
+              el.classList.add('visible');
+              el.classList.remove('hidden');
             }
           });
-        }
+        }, 100);
+        
+        // 节流滚动事件 - 修复性能问题
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            const navbar = document.querySelector('.navbar');
+            const scrollTop = window.scrollY;
+            
+            // 导航栏样式变化
+            if (scrollTop > 50) {
+              navbar.style.boxShadow = '0 6px 30px rgba(0, 0, 0, 0.12)';
+              navbar.style.background = 'rgba(255, 255, 255, 0.9)';
+            } else {
+              navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.08)';
+              navbar.style.background = 'rgba(255, 255, 255, 0.85)';
+            }
+            
+            // 元素显隐逻辑
+            if (Math.abs(scrollTop - lastScrollTop) <= delta) return;
+            
+            scrollElements.forEach(element => {
+              const rect = element.getBoundingClientRect();
+              const windowHeight = window.innerHeight;
+              
+              if (rect.top <= windowHeight - 100 && rect.bottom >= 0) {
+                element.classList.add('visible');
+                element.classList.remove('hidden');
+              } else if (scrollTop > lastScrollTop && rect.bottom < 0) {
+                element.classList.add('hidden');
+                element.classList.remove('visible');
+              } else if (scrollTop < lastScrollTop && rect.top > windowHeight) {
+                element.classList.add('hidden');
+                element.classList.remove('visible');
+              }
+            });
+            
+            lastScrollTop = scrollTop;
+          }, 16); // 60fps
+        });
       } else {
-        // 移动端直接显示所有元素，不做滚动动画，节省性能
+        // 移动端直接显示所有元素，禁用复杂动画
         document.querySelectorAll('section, .btn-container, footer').forEach(el => {
           el.classList.add('visible');
           el.classList.remove('hidden');
         });
       }
-
-      // 初始加载
-      setTimeout(() => {
-        if (!isMobile) {
-          checkVisibility(true);
-        }
-      }, 100);
-
-      // 点击空白处关闭导航菜单
+      
+      // 点击空白处关闭导航菜单 + 修复冒泡问题
       document.addEventListener('click', function(e) {
         if (!navMenu.contains(e.target) && !menuToggle.contains(e.target) && navMenu.classList.contains('active')) {
           navMenu.classList.remove('active');
@@ -1175,15 +1105,43 @@
           icon.classList.remove('fa-times');
           icon.classList.add('fa-bars');
           document.body.style.overflow = '';
+          document.body.style.paddingRight = '';
         }
       });
+      
+      // 窗口大小变化时重新计算轮播高度
+      window.addEventListener('resize', function() {
+        setCarouselHeight();
+        // 修复：窗口大小变化时关闭移动端菜单
+        if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+          navMenu.classList.remove('active');
+          const icon = menuToggle.querySelector('i');
+          icon.classList.remove('fa-times');
+          icon.classList.add('fa-bars');
+          document.body.style.overflow = '';
+          document.body.style.paddingRight = '';
+        }
+      });
+      
+      // 初始加载
+      setTimeout(() => {
+        setCarouselHeight();
+        if (!isMobileDevice) {
+          const scrollElements = document.querySelectorAll('section, .btn-container, footer');
+          scrollElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top <= window.innerHeight - 100) {
+              el.classList.add('visible');
+            }
+          });
+        }
+      }, 100);
     });
   </script>
-
-  <!-- 优化脚本加载 -->
+  
+  <!-- 优化脚本加载（非必要脚本延迟加载） -->
   <script type="text/javascript" src="https://myhkw.cn/player/js/jquery.min.js" defer></script>
   <script type="text/javascript" id="myhk" src="https://myhkw.cn/api/player/1764650780108" key="1764650780108" m="1" defer></script>
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"8b717e60261641248e9738dd8195d250","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a7f17cd1df2aef8',t:'MTc2NDcyMzI2OA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
